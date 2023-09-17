@@ -6,9 +6,9 @@
  * print_string - A function that prints a string
  *
  * @str: a pointer to the string to be printed.
- * Returns void
+ * Return: number of characters printed.
  */
-void print_string(char *str)
+int print_string(char *str)
 {
 	unsigned int i = 0;
 
@@ -17,6 +17,7 @@ void print_string(char *str)
 		write(1, &str[i], 1);
 		i++;
 	}
+	return (i);
 }
 
 /**
@@ -31,12 +32,13 @@ void print_string(char *str)
 int _printf(const char *format, ...)
 {
 	va_list args;
-	unsigned int i = 0;
+	unsigned int i = 0, count = 0;
 	char c;
 
+	if (!format || format[0] == '\0')
+		return (0);
 	va_start(args, format);
-
-	while (format && format[i])
+	while (format[i])
 	{
 		if (format[i] == '%')
 		{
@@ -45,26 +47,28 @@ int _printf(const char *format, ...)
 				case 'c':
 					c = va_arg(args, int);
 					write(1, &c, 1);
+					count++;
 					i++;
 					break;
 				case 's':
-					print_string(va_arg(args, char *));
+					count += print_string(va_arg(args, char *));
 					i++;
 					break;
 				case '%':
 					write(1, "%", 1);
+					count++;
 					i++;
 					break;
 			}
 		}
 		else
+		{
 			write(1, &format[i], 1);
-
+			count++;
+		}
 		i++;
 	}
-
 	va_end(args);
-
-	return (i);
+	return (count);
 }
 
