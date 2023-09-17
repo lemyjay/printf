@@ -21,6 +21,40 @@ int print_string(char *str)
 }
 
 /**
+ * handle_format_specifier - A function that handles format specifiers.
+ *
+ * @specifier: the format specifier character ('c', 's', '%').
+ * @args: the va_list containing the arguments.
+ * @count: a pointer to the count of characters printed.
+ * @i: a pointer to the current position in the format string.
+ */
+void handle_format_specifier(
+char specifier, va_list args, unsigned int *count, unsigned int *i
+)
+{
+	char c;
+
+	switch (specifier)
+	{
+		case 'c':
+			c = va_arg(args, int);
+			write(1, &c, 1);
+			(*count)++;
+			(*i)++;
+			break;
+		case 's':
+			(*count) += print_string(va_arg(args, char *));
+			(*i)++;
+			break;
+		case '%':
+			write(1, "%", 1);
+			(*count)++;
+			(*i)++;
+			break;
+	}
+}
+
+/**
  * _printf - A function that produces output according to a format.
  *
  * @format: a character string that composes of zero or more directives.
@@ -33,34 +67,16 @@ int _printf(const char *format, ...)
 {
 	va_list args;
 	unsigned int i = 0, count = 0;
-	char c;
 
 	if (!format || format[0] == '\0')
 		return (0);
+
 	va_start(args, format);
+
 	while (format[i])
 	{
 		if (format[i] == '%' && format[i + 1] != '\0')
-		{
-			switch (format[i + 1])
-			{
-				case 'c':
-					c = va_arg(args, int);
-					write(1, &c, 1);
-					count++;
-					i++;
-					break;
-				case 's':
-					count += print_string(va_arg(args, char *));
-					i++;
-					break;
-				case '%':
-					write(1, "%", 1);
-					count++;
-					i++;
-					break;
-			}
-		}
+			handle_format_specifier(format[i + 1], args, &count, &i);
 		else
 		{
 			write(1, &format[i], 1);
@@ -68,7 +84,9 @@ int _printf(const char *format, ...)
 		}
 		i++;
 	}
+
 	va_end(args);
+
 	return (count);
 }
 
