@@ -51,6 +51,12 @@ char specifier, va_list args, unsigned int *count, unsigned int *i
 			(*count)++;
 			(*i)++;
 			break;
+		default:
+			write(1, "%", 1);
+			write(1, &specifier, 1);
+			(*count) += 2;
+			(*i)++;
+			break;
 	}
 }
 
