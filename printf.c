@@ -22,6 +22,54 @@ int print_string(char *str)
 	return (i);
 }
 
+/** 
+ * print_binary - a function that prints an integer in binary
+ * @num: the integer to be printed
+ * @count: a pointer to the count of characters
+ */
+
+void print_binary(int num, unsigned int *count)
+{
+	unsigned int mask = 1U << 31;
+	while (mask > 0)
+	{
+		char bit = ((num & mask) != 0) ? '1' : '0';
+		write(1, &bit, 1);
+		(*count)++;
+		mask >>= 1;
+	}
+}
+
+/** 
+ * print_integer - a function that prints an integer
+ * @num: integer to be printed
+ * @count: pointer to the count of characters
+ */
+
+void print_integer(int num, unsigned int *count)
+{
+	char buffer[12];
+	int index = 0;
+	if (num < 0)
+	{
+		write(1, "-", 1);
+		(*count)++;
+		num = -num;
+	}
+
+	do
+	{
+		buffer[index++] = num % 10 + '0';
+		num /= 10;
+	}
+	while (num > 0);
+	while (index > 0)
+	{
+		write(1, &buffer[--index], 1);
+		(*count)++;
+	}
+}
+
 /**
  * handle_format_specifier - A function that handles format specifiers.
  *
@@ -31,11 +79,12 @@ int print_string(char *str)
  * @i: a pointer to the current position in the format string.
  */
 void handle_format_specifier(
-char specifier, va_list args, unsigned int *count, unsigned int *i
-)
+		char specifier, va_list args, unsigned int *count, unsigned int *i
+		)
 {
 	char c;
 	char *s;
+	int num;
 
 	switch (specifier)
 	{
@@ -60,6 +109,17 @@ char specifier, va_list args, unsigned int *count, unsigned int *i
 		case '%':
 			write(1, "%", 1);
 			(*count)++;
+			(*i)++;
+			break;
+		case 'b':
+			num = va_arg(args, int);
+			print_binary(num, count);
+			(*i)++;
+			break;
+		case 'd':
+		case 'i':
+			num = va_arg(args, int);
+			print_integer(num, count);
 			(*i)++;
 			break;
 		default:
