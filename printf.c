@@ -33,6 +33,7 @@ char specifier, va_list args, unsigned int *count, unsigned int *i
 )
 {
 	char c;
+	char *s;
 
 	switch (specifier)
 	{
@@ -43,7 +44,7 @@ char specifier, va_list args, unsigned int *count, unsigned int *i
 			(*i)++;
 			break;
 		case 's':
-			char *s = va_arg(args, char *);
+			s = va_arg(args, char *);
 
 			if (s == NULL)
 			{
