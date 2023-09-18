@@ -2,6 +2,7 @@
 
 /**
  * print_string - A function that prints a string
+ * created by Lemyjay and Samuel
  *
  * @str: a pointer to the string to be printed.
  * Return: number of characters printed.
@@ -18,6 +19,7 @@ int print_string(char *str)
 		write(1, &str[i], 1);
 		i++;
 	}
+	i += 1;
 	return (i);
 }
 
@@ -34,6 +36,7 @@ char specifier, va_list args, unsigned int *count, unsigned int *i
 )
 {
 	char c;
+	char *s;
 
 	switch (specifier)
 	{
@@ -44,7 +47,15 @@ char specifier, va_list args, unsigned int *count, unsigned int *i
 			(*i)++;
 			break;
 		case 's':
-			(*count) += print_string(va_arg(args, char *));
+			s = va_arg(args, char *);
+
+			if (s == NULL)
+			{
+				write(1, "(null)", 6);
+				(*count) += 6;
+			}
+			else
+				(*count) += print_string(s);
 			(*i)++;
 			break;
 		case '%':
@@ -75,12 +86,12 @@ int _printf(const char *format, ...)
 	va_list args;
 	unsigned int i = 0, count = 0;
 
-	if (!format || format[0] == '\0')
-		return (0);
+	if (format == NULL)
+		return (-1);
 
 	va_start(args, format);
 
-	while (format[i])
+	while (format[i] != '\0' && format)
 	{
 		if (format[i] == '%' && format[i + 1] != '\0')
 			handle_format_specifier(format[i + 1], args, &count, &i);
