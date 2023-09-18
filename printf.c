@@ -1,6 +1,4 @@
 #include "main.h"
-#include <stdarg.h>
-#include <unistd.h>
 
 /**
  * print_string - A function that prints a string
@@ -13,7 +11,7 @@ int print_string(char *str)
 	unsigned int i = 0;
 
 	if (str == NULL)
-		return (i);
+		return (-1);
 
 	while (str[i] != '\0')
 	{
