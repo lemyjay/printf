@@ -83,7 +83,7 @@ int _printf(const char *format, ...)
 	va_list args;
 	unsigned int i = 0, count = 0;
 
-	if (!format || format[0] == '\0')
+	if (format == NULL)
 		return (-1);
 
 	va_start(args, format);
