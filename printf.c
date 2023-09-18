@@ -30,7 +30,8 @@ int print_string(char *str)
 
 void print_binary(int num, unsigned int *count)
 {
-	unsigned int mask = 1U << 31;
+	unsigned int mask = 1U << (sizeof(unsigned int) * 8 - 1);
+
 	while (mask > 0)
 	{
 		char bit = ((num & mask) != 0) ? '1' : '0';
@@ -191,10 +192,17 @@ void handle_format_specifier(
 			(*i)++;
 			break;
 		case 'b':
-			num = va_arg(args, int);
-			print_binary(num, count);
-			(*i)++;
-			break;
+			{
+				unsigned int binary_arg = va_arg(args, unsigned int);
+					if (!va_arg(args, unsigned int))
+					{
+						write(1, "Error: Binary conversion requires an unsigned int argument.\n", 63);
+						return;
+					}
+				print_binary(binary_arg, count);
+				(*i)++;
+				break;
+			}
 		case 'd':
 		case 'i':
 			num = va_arg(args, int);
