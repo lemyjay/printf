@@ -43,7 +43,15 @@ char specifier, va_list args, unsigned int *count, unsigned int *i
 			(*i)++;
 			break;
 		case 's':
-			(*count) += print_string(va_arg(args, char *));
+			char *s = va_arg(args, char *);
+
+			if (s == NULL)
+			{
+				write(1, "(null)", 6);
+				(*count) += 6;
+			}
+			else
+				(*count) += print_string(s);
 			(*i)++;
 			break;
 		case '%':
