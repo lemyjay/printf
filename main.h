@@ -10,4 +10,7 @@ void handle_format_specifier(char specifier, va_list args, unsigned int *count, 
 int print_string(char *str);
 void print_integer(int num, unsigned int *count);
 void print_binary(int num, unsigned int *count);
+void print_octal(unsigned int num, unsigned int *count);
+void print_hex(unsigned int num, unsigned int *count, int uppercase);
+void print_unsigned(unsigned int num, unsigned int *count);
 #endif /* MAIN_H */

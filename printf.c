@@ -71,6 +71,82 @@ void print_integer(int num, unsigned int *count)
 }
 
 /**
+ * print_unsigned - a function that prints an unsigned integer
+ * @num: The unsigned integer to print
+ * @count: A pointer to the count of characters printed
+ */
+void print_unsigned(unsigned int num, unsigned int *count)
+{
+	char buffer[12];
+	int index = 0;
+
+	do
+	{
+		buffer[index++] = num % 10 + '0';
+		num /= 10;
+	} while (num > 0);
+
+	while (index > 0)
+	{
+		write(1, &buffer[--index], 1);
+		(*count)++;
+	}
+}
+
+/**
+ * print_octal - a function prints an unsigned integer in octal format
+ * @num: The unsigned integer to print in octal
+ * @count: A pointer to the count of characters printed
+ */
+void print_octal(unsigned int num, unsigned int *count)
+{
+	char buffer[12];
+	int index = 0;
+
+	do
+	{
+		buffer[index++] = num % 8 + '0';
+		num /= 8;
+	} while (num > 0);
+
+	while (index > 0)
+	{
+		write(1, &buffer[--index], 1);
+		(*count)++;
+	}
+}
+
+
+
+/**
+ * print_hex -a function that Prints an unsigned integer in hexadecimal format
+ * @num: The unsigned integer to print in hexadecimal
+ * @count: A pointer to the count of characters printed
+ * @uppercase: 1 if letters should be uppercase, 0 if lowercase
+ */
+void print_hex(unsigned int num, unsigned int *count, int uppercase)
+{
+	char buffer[12];
+	int index = 0;
+
+	do
+	{
+		int remainder = num % 16;
+		if (remainder < 10)
+			buffer[index++] = remainder + '0';
+		else
+			buffer[index++] = (uppercase ? 'A' : 'a') + (remainder - 10);
+		num /= 16;
+	} while (num > 0);
+
+	while (index > 0)
+	{
+		write(1, &buffer[--index], 1);
+		(*count)++;
+	}
+}
+
+/**
  * handle_format_specifier - A function that handles format specifiers.
  *
  * @specifier: the format specifier character ('c', 's', '%').
@@ -85,6 +161,9 @@ void handle_format_specifier(
 	char c;
 	char *s;
 	int num;
+	unsigned int u;
+	unsigned int octal;
+	unsigned int hex;
 
 	switch (specifier)
 	{
@@ -120,6 +199,26 @@ void handle_format_specifier(
 		case 'i':
 			num = va_arg(args, int);
 			print_integer(num, count);
+			(*i)++;
+			break;
+		case 'u':
+			u = va_arg(args, unsigned int);
+			print_unsigned(u, count);
+			(*i)++;
+			break;
+		case 'o':
+			octal = va_arg(args, unsigned int);
+			print_octal(octal, count);
+			(*i)++;
+			break;
+		case 'x':
+			hex = va_arg(args, unsigned int);
+			print_hex(hex, count, 0);
+			(*i)++;
+			break;
+		case 'X':
+			hex = va_arg(args, unsigned int);
+			print_hex(hex, count, 1);
 			(*i)++;
 			break;
 		default:
