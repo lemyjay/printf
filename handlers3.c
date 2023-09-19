@@ -1,7 +1,8 @@
 #include "main.h"
 
 /**
- * hanlde_default - Handles the default case for unrecognized format specifiers
+ * hanlde_default - a function that handles the default case
+ * for unrecognized format specifiers
  *
  * @specifier: the unrecognized format specifier character.
  * @count: a pointer to the count of characters printed.
@@ -16,7 +17,8 @@ void handle_default(char specifier, unsigned int *count, unsigned int *i)
 }
 
 /**
- * print_hex - prints a hexadecimal number (always 2 characters wide).
+ * print_hex - a function that prints a hexadecimal
+ * number (always 2 characters wide).
  *
  * @num: the number to print in hexadecimal.
  * @count: a pointer to the count of characters printed.
@@ -34,7 +36,8 @@ void print_hex(unsigned char num, unsigned int *count)
 }
 
 /**
- * print_hexPointer - converts a hexadecimal number to a string and prints it.
+ * print_hexPointer - a funtion that converts a hexadecimal
+ * number to a string and prints it.
  *
  * @hex: the hexadecimal number to convert and print.
  * @count: a pointer to the count of characters printed.
@@ -80,7 +83,8 @@ void print_hexPointer(unsigned long hex, unsigned int *count)
 }
 
 /**
- * handle_custom_string - handles the custom string specifier %S.
+ * handle_custom_string - a function that handles the
+ * custom string specifier %S.
  *
  * @args: the va_list containing the arguments.
  * @count: a pointer to the count of characters printed.
@@ -119,7 +123,7 @@ void handle_custom_string(va_list args, unsigned int *count, unsigned int *i)
 }
 
 /**
- * handle_pointer - handles the pointer specifier %p.
+ * handle_pointer - a function that handles the pointer specifier %p.
  *
  * @args: the va_list containing the arguments.
  * @count: a pointer to the count of characters printed.

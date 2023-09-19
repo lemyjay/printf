@@ -1,7 +1,8 @@
 #include "main.h"
 
 /**
- * handle_format_specifier - A function that handles format specifiers.
+ * handle_format_specifier - A function that handles the various
+ * format specifiers.
  *
  * @specifier: the format specifier character
  * @args: the va_list containing the arguments.
