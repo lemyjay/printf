@@ -24,7 +24,11 @@ int _printf(const char *format, ...)
 		if (format[i] == '\0')
 			return (-1);
 		if (format[i] == '%' && format[i + 1] != '\0')
-			handle_format_specifier(format[i + 1], args, &count, &i);
+		{
+			int flags = handle_flags(format, format[i + 1], &i);
+
+			handle_format_specifier(format[i + 1], args, &count, &i, flags);
+		}
 		else
 		{
 			write(1, &format[i], 1);

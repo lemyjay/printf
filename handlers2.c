@@ -40,14 +40,22 @@ char *octal_to_string(unsigned int octal)
  * @args: the va_list containing the argument.
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
+ * @flags: the flags for the specifier.
  */
-void handle_octal(va_list args, unsigned int *count, unsigned int *i)
+void handle_octal(
+va_list args, unsigned int *count, unsigned int *i, int flags)
 {
 	unsigned int octal = va_arg(args, unsigned int);
 	char *buffer = octal_to_string(octal);
 
 	if (buffer == NULL)
 		return;
+
+	if (flags & FLAG_HASH && octal != 0)
+	{
+		write(1, "0", 1);
+		(*count)++;
+	}
 
 	(*count) += print_string(buffer);
 
@@ -102,14 +110,22 @@ char *hex_to_string(unsigned int hex, int casing)
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
  * @casing: 0 for lowercase, 1 for uppercase.
+ * @flags: the flags for the specifier.
  */
-void handle_hex(va_list args, unsigned int *count, unsigned int *i, int casing)
+void handle_hex(
+va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 {
 	unsigned int hex = va_arg(args, unsigned int);
 	char *buffer = hex_to_string(hex, casing);
 
 	if (buffer == NULL)
 		return;
+
+	if (flags & FLAG_HASH && hex != 0)
+	{
+		write(1, (casing == 0) ? "0x" : "0X", 2);
+		(*count) += 2;
+	}
 
 	(*count) += print_string(buffer);
 
