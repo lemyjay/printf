@@ -44,11 +44,11 @@ void handle_format_specifier(
 		case 'S':
 			handle_custom_string(args, count, i);
 			break;
+		case 'p':
+			handle_pointer(args, count, i);
+			break;
 		default:
-			write(1, "%", 1);
-			write(1, &specifier, 1);
-			(*count) += 2;
-			(*i)++;
+			handle_default(specifier, count, i);
 			break;
 	}
 }

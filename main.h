@@ -19,7 +19,9 @@ void handle_nosign(va_list args, unsigned int *count, unsigned int *i);
 void handle_octal(va_list args, unsigned int *count, unsigned int *i);
 void handle_hex(
 	va_list args, unsigned int *count, unsigned int *i, int casing);
+void handle_pointer(va_list args, unsigned int *count, unsigned int *i);
 void handle_custom_string(va_list args, unsigned int *count, unsigned int *i);
+void handle_default(char specifier, unsigned int *count, unsigned int *i);
 int print_string(const char *str);
 
 #endif /* MAIN_H */
