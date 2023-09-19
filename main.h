@@ -3,14 +3,23 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <limits.h>
+#include <stdlib.h>
 
 /* Declaration of functions to be used in the printf project */
 int _printf(const char *format, ...);
-void handle_format_specifier(char specifier, va_list args, unsigned int *count, unsigned int *i);
-int print_string(char *str);
-void print_integer(int num, unsigned int *count);
-void print_binary(int num, unsigned int *count);
-void print_octal(unsigned int num, unsigned int *count);
-void print_hex(unsigned int num, unsigned int *count, int uppercase);
-void print_unsigned(unsigned int num, unsigned int *count);
+void handle_format_specifier(
+	char specifier, va_list args, unsigned int *count, unsigned int *i);
+void handle_char(va_list args, unsigned int *count, unsigned int *i);
+void handle_string(va_list args, unsigned int *count, unsigned int *i);
+void handle_percent(unsigned int *count, unsigned int *i);
+void handle_binary(va_list args, unsigned int *count, unsigned int *i);
+void handle_integer(va_list args, unsigned int *count, unsigned int *i);
+void handle_nosign(va_list args, unsigned int *count, unsigned int *i);
+void handle_octal(va_list args, unsigned int *count, unsigned int *i);
+void handle_hex(
+	va_list args, unsigned int *count, unsigned int *i, int casing);
+int encountered_error(void);
+int print_string(const char *str);
+
 #endif /* MAIN_H */

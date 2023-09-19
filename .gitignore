@@ -1,2 +1,9 @@
-main.c
+# Executable files
 a.out
+
+# Test files
+main.c
+
+# Backup files from VI/VIM or EMACS
+*utils.c.swp
+*.swc
