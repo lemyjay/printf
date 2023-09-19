@@ -41,6 +41,9 @@ void handle_format_specifier(
 		case 'X':
 			handle_hex(args, count, i, 1);
 			break;
+		case 'S':
+			handle_custom_string(args, count, i);
+			break;
 		default:
 			write(1, "%", 1);
 			write(1, &specifier, 1);
