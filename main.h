@@ -11,7 +11,7 @@
 #define FLAG_SPACE 2
 #define FLAG_HASH 4
 
-int handle_flags(const char *format, char specifier, unsigned int *i);
+int handle_flags(const char *format, unsigned int *i);
 
 /* Declaration of functions to be used in the printf project */
 int _printf(const char *format, ...);

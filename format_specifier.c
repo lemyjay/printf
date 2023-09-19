@@ -3,19 +3,18 @@
 /**
  * handle_flags - A function that handles flag characters.
  *
- * @specifier: the format specifier character
  * @i: a pointer to the current position in the format string.
  * @format: the format string.
  *
  * Return: the flags as an integer.
  */
-int handle_flags(const char *format, char specifier, unsigned int *i)
+int handle_flags(const char *format, unsigned int *i)
 {
 	int flags = 0;
 
-	while (specifier == '+' || specifier == ' ' || specifier == '#')
+	while (format[*i] == '+' || format[*i] == ' ' || format[*i] == '#')
 	{
-		switch (specifier)
+		switch (format[*i])
 		{
 			case '+':
 				flags |= FLAG_PLUS;
@@ -29,7 +28,6 @@ int handle_flags(const char *format, char specifier, unsigned int *i)
 		}
 
 		(*i)++;
-		specifier = format[*i];
 	}
 
 	return (flags);

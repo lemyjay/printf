@@ -20,15 +20,21 @@ int _printf(const char *format, ...)
 
 	va_start(args, format);
 
-	while (format[i] != '\0' && format)
+	while (format[i] != '\0')
 	{
-		if (format[i] == '\0')
-			return (-1);
-		if (format[i] == '%' && format[i + 1] != '\0')
+		if (format[i] == '%')
 		{
-			int flags = handle_flags(format, format[i + 1], &i);
+			if (format[i + 1] != '\0')
+			{
+				int flags = handle_flags(format, &i);
 
-			handle_format_specifier(format[i + 1], args, &count, &i, flags);
+				handle_format_specifier(format[i + 1], args, &count, &i, flags);
+			}
+			else
+			{
+				write(1, "Invalid format string\n", 21);
+				return (-1);
+			}
 		}
 		else
 		{
