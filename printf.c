@@ -2,6 +2,7 @@
 
 /**
  * _printf - A function that produces output according to a format.
+ * this is the main file that contains the printf function
  *
  * @format: a character string that composes of zero or more directives.
  *
