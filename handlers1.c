@@ -1,14 +1,26 @@
 #include "main.h"
 
 /**
- * encountered_error - used to return -1 at any point in the custom printf
- * function when an error is encounted.
+ * handle_int_min - helper function to handle INT_MIN
  *
- * Return: -1 for failure.
+ * Return: buffer.
  */
-int encountered_error(void)
+
+static char *handle_int_min(void)
 {
-	return (-1);
+	char min_str[] = "-2147483648";
+	int i, length = sizeof(min_str) - 1;
+	char *buffer = (char *)malloc(length + 1);
+
+	if (buffer == NULL)
+		return (NULL);
+
+	for (i = 0; i < length; i++)
+		buffer[i] = min_str[i];
+
+	buffer[length] = '\0';
+
+	return (buffer);
 }
 
 /**
@@ -21,42 +33,37 @@ int encountered_error(void)
  */
 char *int_to_string(int num)
 {
-	int length, temp, index, is_negative = 0;
+	int temp, length = 1, index, is_negative = 0;
 	char *buffer;
 
 	if (num < 0)
 	{
-		is_negative = 1;
 		if (num == INT_MIN)
-		{
-			num = -(num + 1) + 1;
-		}
-		else
-			num = -num;
+			return (handle_int_min());
+		is_negative = 1;
+		num = -num;
 	}
 
-	length = is_negative ? 2 : 1;
 	temp = num;
-	while (temp > 0)
+	while (temp >= 10)
 	{
 		temp /= 10;
 		length++;
 	}
 
-	buffer = (char *)malloc(length + 1);
+	buffer = (char *)malloc(length + (is_negative ? 2 : 1));
 	if (buffer == NULL)
 		return (NULL);
 
-	index = length - 1;
+	index = length + (is_negative ? 1 : 0);
+	buffer[index] = '\0';
 	do {
-		buffer[index--] = num % 10 + '0';
+		buffer[--index] = num % 10 + '0';
 		num /= 10;
 	} while (num > 0);
 
 	if (is_negative)
 		buffer[0] = '-';
-
-	buffer[length] = '\0';
 
 	return (buffer);
 }
