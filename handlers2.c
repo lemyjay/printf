@@ -1,6 +1,6 @@
 #include "main.h"
 /**
- * octal_to_string - converts an octal number to a string.
+ * octal_to_string -a function that converts an octal number to a string.
  *
  * @octal: the octal number to convert.
  * Return: a dynamically allocated string representing the octal number.
@@ -35,7 +35,7 @@ char *octal_to_string(unsigned int octal)
 }
 
 /**
- * handle_octal - handles the octal specifier.
+ * handle_octal - a function that handles the octal specifier.
  *
  * @args: the va_list containing the argument.
  * @count: a pointer to the count of characters printed.
@@ -65,7 +65,7 @@ va_list args, unsigned int *count, unsigned int *i, int flags)
 }
 
 /**
- * hex_to_string - converts a hexadecimal number to a string.
+ * hex_to_string - a function that converts a hexadecimal number to a string.
  *
  * @hex: the hexadecimal number to convert.
  * @casing: 0 for lowercase, 1 for uppercase.
@@ -104,7 +104,7 @@ char *hex_to_string(unsigned int hex, int casing)
 }
 
 /**
- * handle_hex - handles the hexadecimal specifier.
+ * handle_hex - a function that handles the hexadecimal specifier.
  *
  * @args: the va_list containing the argument.
  * @count: a pointer to the count of characters printed.
@@ -135,7 +135,7 @@ va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 }
 
 /**
- * handle_percent - handles the percent specifier.
+ * handle_percent - a function that handles the percent specifier.
  *
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.

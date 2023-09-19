@@ -56,7 +56,7 @@ void handle_string(va_list args, unsigned int *count, unsigned int *i)
 }
 
 /**
- * binary_to_string - converts a binary number to a string.
+ * binary_to_string - a function that converts a binary number to a string.
  *
  * @binary: the binary number to convert.
  * Return: a dynamically allocated string representing the binary number.
