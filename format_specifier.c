@@ -82,6 +82,8 @@ char specifier, va_list args, unsigned int *count, unsigned int *i, int flags)
 		case 'p':
 			handle_pointer(args, count, i);
 			break;
+		case 'R':
+			handle_rot13(args, count, i);
 		default:
 			handle_default(specifier, count, i);
 			break;
