@@ -9,7 +9,7 @@
 /* Declaration of functions to be used in the printf project */
 int _printf(const char *format, ...);
 void handle_format_specifier(
-	char specifier, va_list args, unsigned int *count, unsigned int *i);
+		char specifier, va_list args, unsigned int *count, unsigned int *i);
 void handle_char(va_list args, unsigned int *count, unsigned int *i);
 void handle_string(va_list args, unsigned int *count, unsigned int *i);
 void handle_percent(unsigned int *count, unsigned int *i);
@@ -18,10 +18,11 @@ void handle_integer(va_list args, unsigned int *count, unsigned int *i);
 void handle_nosign(va_list args, unsigned int *count, unsigned int *i);
 void handle_octal(va_list args, unsigned int *count, unsigned int *i);
 void handle_hex(
-	va_list args, unsigned int *count, unsigned int *i, int casing);
+		va_list args, unsigned int *count, unsigned int *i, int casing);
 void handle_pointer(va_list args, unsigned int *count, unsigned int *i);
 void handle_custom_string(va_list args, unsigned int *count, unsigned int *i);
 void handle_default(char specifier, unsigned int *count, unsigned int *i);
 int print_string(const char *str);
-
+void handle_rot13(va_list args, unsigned int *count, unsigned int *i);
+void rot13(char *str);
 #endif /* MAIN_H */
