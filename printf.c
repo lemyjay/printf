@@ -29,12 +29,12 @@ int _printf(const char *format, ...)
 				int flags = handle_flags(format, &i);
 
 				handle_format_specifier(format[i + 1], args, &count, &i, flags);
-			}
+			}/*
 			else
 			{
 				write(1, "Invalid format string\n", 21);
 				return (-1);
-			}
+			}*/
 		}
 		else
 		{
