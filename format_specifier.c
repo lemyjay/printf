@@ -12,7 +12,8 @@ int handle_flags(const char *format, unsigned int *i)
 {
 	int flags = 0;
 
-	while (format[*i] == '+' || format[*i] == ' ' || format[*i] == '#')
+	while (format[(*i) + 1] == '+' || format[(*i) + 1] == ' ' ||
+			format[(*i) + 1] == '#')
 	{
 		switch (format[*i])
 		{
@@ -30,8 +31,9 @@ int handle_flags(const char *format, unsigned int *i)
 		(*i)++;
 	}
 
-	if (format[*i] == 'd' || format[*i] == 'i' || format[*i] == 'o' ||
-			format[*i] == 'x' || format[*i] == 'X')
+	if (format[(*i) + 2] == 'd' || format[(*i) + 2] == 'i' ||
+	format[(*i) + 2] == 'o' || format[(*i) + 2] == 'x' ||
+	format[(*i) + 2] == 'X')
 		return (flags);
 	else
 		return (0);
