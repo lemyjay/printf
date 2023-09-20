@@ -44,14 +44,33 @@ int print_string(const char *str)
 void handle_string(va_list args, unsigned int *count, unsigned int *i)
 {
 	char *str = va_arg(args, char *);
+	int field_width = get_field_width(format, i);
+	int len = (str == NULL) ? 6 : strlen(str);
 
-	if (str == NULL)
+	if (format[*i + 1] == '-')
 	{
-		write(1, "(null)", 6);
-		(*count) += 6;
+		if (str == NULL)
+		{
+			write(1, "(null)", 6);
+			(*count) += 6;
+		}
+		else
+			(*count) += print_string(str);
+		padding_spaces(field_width - len, count);
 	}
 	else
-		(*count) += print_string(str);
+	{
+		padding_spaces(field_with - len; count);
+		if (str == NULL)
+		{
+			write(1, "(null)", 6);
+			(*count) += 6;
+		}
+		else
+		{
+			(*count) += print_string(str);
+		}
+	}
 	(*i)++;
 }
 

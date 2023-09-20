@@ -113,7 +113,7 @@ char *unsigned_int_to_string(unsigned int num)
  * @flags: the flags for the specifier.
  */
 void handle_integer(
-va_list args, unsigned int *count, unsigned int *i, int flags)
+		va_list args, unsigned int *count, unsigned int *i, int flags)
 {
 	int num = va_arg(args, int);
 	char *buffer = int_to_string(num);
@@ -121,18 +121,39 @@ va_list args, unsigned int *count, unsigned int *i, int flags)
 	if (buffer == NULL)
 		return;
 
-	if (flags & FLAG_PLUS && num >= 0)
+	int field_width = get_field_width(format, i);
+	if (flags & FLAG_MINUS)
 	{
-		write(1, "+", 1);
-		(*count)++;
-	}
-	else if (flags & FLAG_SPACE && num >= 0)
-	{
-		write(1, " ", 1);
-		(*count)++;
-	}
 
-	(*count) += print_string(buffer);
+		if (flags & FLAG_PLUS && num >= 0)
+		{
+			write(1, "+", 1);
+			(*count)++;
+		}
+		else if (flags & FLAG_SPACE && num >= 0)
+		{
+			write(1, " ", 1);
+			(*count)++;
+		}
+
+		(*count) += print_string(buffer);
+		padding_spaces(field_width - strlen(buffer), count);
+	}
+	else
+	{
+		padding_spaces(field_width - strlen(buffer), count);
+		if (flags & FLAG_PLUS && num >= 0)
+		{
+			write(1, "+", 1);
+			(*count)++;
+		}
+		else if (flags & FLAG_SPACE && num >= 0)
+		{
+			write(1, " ", 1);
+			(*count)++;
+		}
+		(*count) += print_string(buffer);
+	}
 	free(buffer);
 	(*i)++;
 }

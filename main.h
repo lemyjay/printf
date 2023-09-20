@@ -40,4 +40,7 @@ void rot13(char *str);
 
 void reverse_string(char *str);
 void handle_reverse(va_list args, unsigned int *count, unsigned int *i);
+
+void padding_spaces(int num_spaces, unsigned int *count);
+int get_field_width(const char *format, unsigned int *i);
 #endif /* MAIN_H */

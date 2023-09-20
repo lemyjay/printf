@@ -52,7 +52,7 @@ void handle_format_specifier(
 			handle_char(args, count, i);
 			break;
 		case 's':
-			handle_string(args, count, i);
+			handle_string(args, count, i, flag);
 			break;
 		case '%':
 			handle_percent(count, i);
@@ -62,19 +62,19 @@ void handle_format_specifier(
 			break;
 		case 'd':
 		case 'i':
-			handle_integer(args, count, i, flags);
+			handle_integer(args, count, i, flags;
 			break;
 		case 'u':
 			handle_nosign(args, count, i);
 			break;
 		case 'o':
-			handle_octal(args, count, i, flags);
+			handle_octal(args, count, i, flag);
 			break;
 		case 'x':
-			handle_hex(args, count, i, 0, flags);
+			handle_hex(args, count, i, 0, flag);
 			break;
 		case 'X':
-			handle_hex(args, count, i, 1, flags);
+			handle_hex(args, count, i, 1, flag);
 			break;
 		case 'S':
 			handle_custom_string(args, count, i);
