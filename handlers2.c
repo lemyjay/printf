@@ -40,13 +40,16 @@ char *octal_to_string(unsigned int octal)
  * @args: the va_list containing the argument.
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
+ * @casing: 0 for lowercase, 1 for uppercase.
  * @flags: the flags for the specifier.
  */
 void handle_octal(
-va_list args, unsigned int *count, unsigned int *i, int flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 {
 	unsigned int octal = va_arg(args, unsigned int);
 	char *buffer = octal_to_string(octal);
+
+	(void) casing;
 
 	if (buffer == NULL)
 		return;
@@ -137,11 +140,19 @@ va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 /**
  * handle_percent - a function that handles the percent specifier.
  *
+ * @args: the va_list containing the arguments.
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
+ * @casing: 0 for lowercase, 1 for uppercase.
+ * @flags: the flags for the specifier.
  */
-void handle_percent(unsigned int *count, unsigned int *i)
+void handle_percent(
+va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 {
+	(void) casing;
+	(void) flags;
+	(void) args;
+
 	write(1, "%", 1);
 	(*count)++;
 	(*i)++;

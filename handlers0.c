@@ -5,10 +5,16 @@
  * @args: the va_list containing the arguments.
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
+ * @casing: 0 for lowercase, 1 for uppercase.
+ * @flags: the flags for the specifier
  */
-void handle_char(va_list args, unsigned int *count, unsigned int *i)
+void handle_char(
+va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 {
 	char c = va_arg(args, int);
+
+	(void) casing;
+	(void) flags;
 
 	write(1, &c, 1);
 	(*count)++;
@@ -40,37 +46,24 @@ int print_string(const char *str)
  * @args: the va_list containing the arguments.
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
+ * @casing: 0 for lowercase, 1 for uppercase.
+ * @flags: the flags for the specifier;
  */
-void handle_string(va_list args, unsigned int *count, unsigned int *i)
+void handle_string(
+va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 {
 	char *str = va_arg(args, char *);
-	int field_width = get_field_width(format, i);
-	int len = (str == NULL) ? 6 : strlen(str);
 
-	if (format[*i + 1] == '-')
+	(void) casing;
+	(void) flags;
+
+	if (str == NULL)
 	{
-		if (str == NULL)
-		{
-			write(1, "(null)", 6);
-			(*count) += 6;
-		}
-		else
-			(*count) += print_string(str);
-		padding_spaces(field_width - len, count);
+		write(1, "(null)", 6);
+		(*count) += 6;
 	}
 	else
-	{
-		padding_spaces(field_with - len; count);
-		if (str == NULL)
-		{
-			write(1, "(null)", 6);
-			(*count) += 6;
-		}
-		else
-		{
-			(*count) += print_string(str);
-		}
-	}
+		(*count) += print_string(str);
 	(*i)++;
 }
 
@@ -115,11 +108,17 @@ char *binary_to_string(unsigned int binary)
  * @args: the va_list containing the argument
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
+ * @casing: 0 for lowercase, 1 for uppercase.
+ * @flags: the flags for the specifier;
  */
-void handle_binary(va_list args, unsigned int *count, unsigned int *i)
+void handle_binary(
+va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 {
 	unsigned int num = va_arg(args, unsigned int);
 	char *buffer = binary_to_string(num);
+
+	(void) casing;
+	(void) flags;
 
 	if (buffer == NULL)
 		return;

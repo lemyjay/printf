@@ -110,63 +110,32 @@ char *unsigned_int_to_string(unsigned int num)
  * @args: the va_list containing the arguments.
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
+ * @casing: 0 for lowercase, 1 for uppercase.
  * @flags: the flags for the specifier.
  */
 void handle_integer(
-		va_list args, unsigned int *count, unsigned int *i, int flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 {
 	int num = va_arg(args, int);
 	char *buffer = int_to_string(num);
 
+	(void) casing;
+
 	if (buffer == NULL)
 		return;
 
-	int field_width = get_field_width(format, i);
-	if (flags & FLAG_MINUS)
+	if (flags & FLAG_PLUS && num >= 0)
 	{
-
-		if (flags & FLAG_PLUS && num >= 0)
-		{
-			write(1, "+", 1);
-			(*count)++;
-			field_width--;
-		}
-		else if (flags & FLAG_SPACE && num >= 0)
-		{
-			write(1, " ", 1);
-			(*count)++;
-			field_width--;
-		}
-		if (flags &  FLAG_HASH && *buffer != '0')
-		{
-			write(1, "0", 1);
-			(*count)++;
-			field_width--;
-		}
-
-		(*count) += print_string(buffer);
-		padding_spaces(field_width - strlen(buffer), count);
+		write(1, "+", 1);
+		(*count)++;
 	}
-	else
+	else if (flags & FLAG_SPACE && num >= 0)
 	{
-		padding_spaces(field_width - strlen(buffer), count);
-		if (flags & FLAG_PLUS && num >= 0)
-		{
-			write(1, "+", 1);
-			(*count)++;
-		}
-		else if (flags & FLAG_SPACE && num >= 0)
-		{
-			write(1, " ", 1);
-			(*count)++;
-		}
-		if (flags & FLAG_HASH && *buffer != '0')
-		{
-			write(1, "0", 1);
-			(*count)++;
-		}
-		(*count) += print_string(buffer);
+		write(1, " ", 1);
+		(*count)++;
 	}
+
+	(*count) += print_string(buffer);
 	free(buffer);
 	(*i)++;
 }
@@ -177,11 +146,17 @@ void handle_integer(
  * @args: the va_list containing the argument
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
+ * @casing: 0 for lowercase, 1 for uppercase.
+ * @flags: the flags for the specifier.
  */
-void handle_nosign(va_list args, unsigned int *count, unsigned int *i)
+void handle_nosign(
+va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 {
 	unsigned int num = va_arg(args, unsigned int);
 	char *buffer = unsigned_int_to_string(num);
+
+	(void) casing;
+	(void) flags;
 
 	if (buffer == NULL)
 		return;

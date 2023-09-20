@@ -33,7 +33,6 @@ int handle_flags(const char *format, unsigned int *i)
 	return (flags);
 }
 
-
 /**
  * handle_format_specifier - A function that handles format specifiers.
  *
@@ -44,52 +43,30 @@ int handle_flags(const char *format, unsigned int *i)
  * @flags: the flags for the specifier.
  */
 void handle_format_specifier(
-		char specifier, va_list args, unsigned int *count, unsigned int *i, int flags)
+char specifier, va_list args, unsigned int *count, unsigned int *i, int flags)
 {
-	switch (specifier)
+	int j, casing = 0;
+	FormatSpecifier formatSpecifiers[] = {
+		{'c', handle_char}, {'s', handle_string},
+		{'%', handle_percent}, {'b', handle_binary},
+		{'d', handle_integer}, {'i', handle_integer},
+		{'u', handle_nosign}, {'o', handle_octal},
+		{'x', handle_hex}, {'X', handle_hex},
+		{'S', handle_custom_string}, {'p', handle_pointer},
+		{'R', handle_rot13}, {'r', handle_reverse},
+		{'\0', NULL} /* This marks the end of the array */
+	};
+
+	for (j = 0; formatSpecifiers[j].specifier != '\0'; j++)
 	{
-		case 'c':
-			handle_char(args, count, i);
-			break;
-		case 's':
-			handle_string(args, count, i, flag);
-			break;
-		case '%':
-			handle_percent(count, i);
-			break;
-		case 'b':
-			handle_binary(args, count, i);
-			break;
-		case 'd':
-		case 'i':
-			handle_integer(args, count, i, flags;
-			break;
-		case 'u':
-			handle_nosign(args, count, i);
-			break;
-		case 'o':
-			handle_octal(args, count, i, flag);
-			break;
-		case 'x':
-			handle_hex(args, count, i, 0, flag);
-			break;
-		case 'X':
-			handle_hex(args, count, i, 1, flag);
-			break;
-		case 'S':
-			handle_custom_string(args, count, i);
-			break;
-		case 'p':
-			handle_pointer(args, count, i);
-			break;
-		case 'R':
-			handle_rot13(args, count, i);
-			break;
-		case 'r':
-			handle_reverse(args, count, i);
-			break;
-		default:
-			handle_default(specifier, count, i);
-			break;
+		if (formatSpecifiers[j].specifier == specifier)
+		{
+			if (specifier == 'X')
+				casing = 1;
+			formatSpecifiers[j].handler(args, count, i, casing, flags);
+			return;
+		}
 	}
+
+	handle_default(specifier, count, i);
 }

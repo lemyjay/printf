@@ -1,6 +1,22 @@
 #include "main.h"
 
 /**
+ * _strlen - a function that calculates the length of a string
+ *
+ * @str: the string to be measured
+ * Return: the length of the string
+ */
+int _strlen(const char *str)
+{
+	int length = 0;
+
+	while (str[length] != '\0')
+		length++;
+
+	return (length);
+}
+
+/**
  * reverse_string - a function that reverses a string in place
  *
  * @str: the string to be reversed
@@ -8,7 +24,7 @@
 
 void reverse_string(char *str)
 {
-	int length = strlen(str);
+	int length = _strlen(str);
 	int i, j;
 	char temp;
 
@@ -25,10 +41,16 @@ void reverse_string(char *str)
  * @args: the va_list that contains the argument
  * @count: a pointer to the count of characters printed
  * @i: a pointer to the current position of the string
+ * @casing: 0 for lowercase, 1 for uppercase.
+ * @flags: the flags for the specifier.
  */
-void handle_reverse(va_list args, unsigned int *count, unsigned int *i)
+void handle_reverse(
+va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 {
-	char *str = va_arg(ags, char *);
+	char *str = va_arg(args, char *);
+
+	(void) casing;
+	(void) flags;
 
 	if (str == NULL)
 	{
@@ -84,10 +106,16 @@ void rot13(char *str)
  * @args: the va_list containing the arguments.
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
+ * @casing: 0 for lowercase, 1 for uppercase.
+ * @flags: the flags for the specifier.
  */
-void handle_rot13(va_list args, unsigned int *count, unsigned int *i)
+void handle_rot13(
+va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 {
 	char *str = va_arg(args, char *);
+
+	(void) casing;
+	(void) flags;
 
 	if (str == NULL)
 	{
@@ -101,5 +129,4 @@ void handle_rot13(va_list args, unsigned int *count, unsigned int *i)
 	}
 
 	(*i)++;
-}
 }
