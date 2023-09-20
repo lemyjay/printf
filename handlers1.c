@@ -110,14 +110,27 @@ char *unsigned_int_to_string(unsigned int num)
  * @args: the va_list containing the arguments.
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
+ * @flags: the flags for the specifier.
  */
-void handle_integer(va_list args, unsigned int *count, unsigned int *i)
+void handle_integer(
+va_list args, unsigned int *count, unsigned int *i, int flags)
 {
 	int num = va_arg(args, int);
 	char *buffer = int_to_string(num);
 
 	if (buffer == NULL)
 		return;
+
+	if (flags & FLAG_PLUS && num >= 0)
+	{
+		write(1, "+", 1);
+		(*count)++;
+	}
+	else if (flags & FLAG_SPACE && num >= 0)
+	{
+		write(1, " ", 1);
+		(*count)++;
+	}
 
 	(*count) += print_string(buffer);
 	free(buffer);

@@ -1,8 +1,7 @@
 #include "main.h"
 
 /**
- * hanlde_default - a function that handles the default case
- * for unrecognized format specifiers
+ * handle_default - Handles the default case for unrecognized format specifiers
  *
  * @specifier: the unrecognized format specifier character.
  * @count: a pointer to the count of characters printed.
