@@ -16,8 +16,12 @@ va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 	(void) casing;
 	(void) flags;
 
-	write(1, &c, 1);
-	(*count)++;
+	if (c != '\0')
+	{
+		write(1, &c, 1);
+		(*count)++;
+	}
+	
 	(*i)++;
 }
 
