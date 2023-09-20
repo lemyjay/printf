@@ -129,11 +129,19 @@ void handle_integer(
 		{
 			write(1, "+", 1);
 			(*count)++;
+			field_width--;
 		}
 		else if (flags & FLAG_SPACE && num >= 0)
 		{
 			write(1, " ", 1);
 			(*count)++;
+			field_width--;
+		}
+		if (flags &  FLAG_HASH && *buffer != '0')
+		{
+			write(1, "0", 1);
+			(*count)++;
+			field_width--;
 		}
 
 		(*count) += print_string(buffer);
@@ -150,6 +158,11 @@ void handle_integer(
 		else if (flags & FLAG_SPACE && num >= 0)
 		{
 			write(1, " ", 1);
+			(*count)++;
+		}
+		if (flags & FLAG_HASH && *buffer != '0')
+		{
+			write(1, "0", 1);
 			(*count)++;
 		}
 		(*count) += print_string(buffer);

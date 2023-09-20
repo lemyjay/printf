@@ -8,9 +8,10 @@
 #include <stdlib.h>
 
 /* Define macro for flag values */
-#define FLAG_PLUS 1
-#define FLAG_SPACE 2
-#define FLAG_HASH 4
+#define FLAG_MINUS (1 << 0)
+#define FLAG_PLUS (1 << 1)
+#define FLAG_SPACE (1 << 2)
+#define FLAG_HASH (1 << 3)
 
 int handle_flags(const char *format, unsigned int *i);
 
