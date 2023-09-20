@@ -30,7 +30,11 @@ int handle_flags(const char *format, unsigned int *i)
 		(*i)++;
 	}
 
-	return (flags);
+	if (format[*i] == 'd' || format[*i] == 'i' || format[*i] == 'o' ||
+			format[*i] == 'x' || format[*i] == 'X')
+		return (flags);
+	else
+		return (0);
 }
 
 /**
