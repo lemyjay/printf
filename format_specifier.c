@@ -44,7 +44,7 @@ int handle_flags(const char *format, unsigned int *i)
  * @flags: the flags for the specifier.
  */
 void handle_format_specifier(
-char specifier, va_list args, unsigned int *count, unsigned int *i, int flags)
+		char specifier, va_list args, unsigned int *count, unsigned int *i, int flags)
 {
 	switch (specifier)
 	{
@@ -84,6 +84,10 @@ char specifier, va_list args, unsigned int *count, unsigned int *i, int flags)
 			break;
 		case 'R':
 			handle_rot13(args, count, i);
+			break;
+		case 'r':
+			handle_reverse(args, count, i);
+			break;
 		default:
 			handle_default(specifier, count, i);
 			break;

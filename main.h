@@ -37,4 +37,7 @@ void handle_default(char specifier, unsigned int *count, unsigned int *i);
 int print_string(const char *str);
 void handle_rot13(va_list args, unsigned int *count, unsigned int *i);
 void rot13(char *str);
+
+void reverse_string(char *str);
+void handle_reverse(va_list args, unsigned int *count, unsigned int *i);
 #endif /* MAIN_H */
