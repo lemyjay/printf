@@ -9,13 +9,27 @@ void rot13(char *str)
 {
 	while (*str)
 	{
-		if ((*str >= 'a' && *str <= 'm') || (*str >= 'A' && *str <= 'M'))
+		if ((*str >= 'a' && *str <= 'z'))
 		{
-			*str += 13;
+			if (*str > 'm')
+			{
+				*str = *str - 13;
+			}
+			else
+			{
+				*str = *str + 13;
+			}
 		}
-		else if ((*str >= 'n' && *str <= 'z') || (*str >= 'N' && *str <= 'Z'))
+		else if ((*str >= 'A' && *str <= 'Z'))
 		{
-			*str -= 13;
+			if (*str > 'M')
+			{
+				*str = *str - 13;
+			}
+			else
+			{
+				*str = *str + 13;
+			}
 		}
 		str++;
 	}
