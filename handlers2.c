@@ -6,11 +6,11 @@
  * Return: a dynamically allocated string representing the octal number.
  * The caller is responsible for freeing the memory.
  */
-char *octal_to_string(unsigned int octal)
+char *octal_to_string(unsigned long octal)
 {
 	int length = 0, index;
 	char *buffer;
-	unsigned int temp = octal;
+	unsigned long temp = octal;
 
 	do {
 		temp /= 8;
@@ -46,10 +46,26 @@ char *octal_to_string(unsigned int octal)
 void handle_octal(
 va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
 {
-	unsigned int octal = va_arg(args, unsigned int);
-	char *buffer = octal_to_string(octal);
+	unsigned long octal;
+	char *buffer;
 
 	(void) casing;
+
+	if (flags == 'l')
+	{
+		octal = va_arg(args, unsigned long);
+		buffer = octal_to_string(octal);
+	}
+	else if (flags == 'h')
+	{
+		octal = va_arg(args, int);
+		buffer = octal_to_string((unsigned int)(unsigned short)octal);
+	}
+	else
+	{
+		octal = va_arg(args, unsigned int);
+		buffer = octal_to_string((unsigned int)octal);
+	}
 
 	if (buffer == NULL)
 		return;
@@ -75,11 +91,11 @@ va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
  * Return: a dynamically allocated string representing the hexadecimal number.
  * The caller is responsible for freeing the memory.
  */
-char *hex_to_string(unsigned int hex, int casing)
+char *hex_to_string(unsigned long hex, int casing)
 {
 	const char *hex_chars;
 	int length = 0, index;
-	unsigned int temp = hex;
+	unsigned long temp = hex;
 	char *buffer;
 
 	hex_chars = (casing == 0) ? "0123456789abcdef" : "0123456789ABCDEF";
@@ -118,8 +134,24 @@ char *hex_to_string(unsigned int hex, int casing)
 void handle_hex(
 va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
 {
-	unsigned int hex = va_arg(args, unsigned int);
-	char *buffer = hex_to_string(hex, casing);
+	unsigned long hex;
+	char *buffer;
+
+	if (flags == 'l')
+	{
+		hex = va_arg(args, unsigned long);
+		buffer = hex_to_string(hex, casing);
+	}
+	else if (flags == 'h')
+	{
+		hex = va_arg(args, unsigned int);
+		buffer = hex_to_string((unsigned short)hex, casing);
+	}
+	else
+	{
+		hex = va_arg(args, unsigned int);
+		buffer = hex_to_string((unsigned int)hex, casing);
+	}
 
 	if (buffer == NULL)
 		return;

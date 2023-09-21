@@ -33,7 +33,8 @@ typedef struct FormatSpecifier FormatSpecifier;
 int _printf(const char *format, ...);
 
 void handle_format_specifier(
-char specifier, va_list args, unsigned int *count, unsigned int *i, char flags);
+char specifier, va_list args, unsigned int *count,
+unsigned int *i, char flags);
 
 void handle_char(
 va_list args, unsigned int *count, unsigned int *i, int casing, char flags);

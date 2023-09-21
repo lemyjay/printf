@@ -25,11 +25,18 @@ char handle_flags(const char *format, unsigned int *i)
 		case '#':
 			flags = '#';
 			break;
+		case 'l':
+			flags = 'l';
+			break;
+		case 'h':
+			flags = 'h';
+			break;
 	}
 
 	if ((format[next_index + 1] == 'd' || format[next_index + 1] == 'i' ||
 	format[next_index + 1] == 'o' || format[next_index + 1] == 'x' ||
-	format[next_index + 1] == 'X') && flags != '\0')
+	format[next_index + 1] == 'X' || format[next_index + 1] == 'u') &&
+	flags != '\0')
 	{
 		(*i)++;
 		return (flags);
