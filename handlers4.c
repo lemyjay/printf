@@ -43,14 +43,19 @@ void reverse_string(char *str)
  * @i: a pointer to the current position of the string
  * @casing: 0 for lowercase, 1 for uppercase.
  * @flags: the flags for the specifier.
+ * @width: handles width.
+ * @precision: handles precision.
  */
 void handle_reverse(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
+int width, int precision)
 {
 	char *str = va_arg(args, char *);
 
 	(void) casing;
 	(void) flags;
+	(void) precision;
+	(void) width;
 
 	if (str == NULL)
 	{
@@ -108,14 +113,19 @@ void rot13(char *str)
  * @i: a pointer to the current position in the format string.
  * @casing: 0 for lowercase, 1 for uppercase.
  * @flags: the flags for the specifier.
+ * @width: handles width.
+ * @precision: handles precision.
  */
 void handle_rot13(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
+int width, int precision)
 {
 	char *str = va_arg(args, char *);
 
 	(void) casing;
 	(void) flags;
+	(void) precision;
+	(void) width;
 
 	if (str == NULL)
 	{

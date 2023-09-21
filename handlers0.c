@@ -7,14 +7,19 @@
  * @i: a pointer to the current position in the format string.
  * @casing: 0 for lowercase, 1 for uppercase.
  * @flags: the flags for the specifier
+ * @precision: handles precision.
+ * @width: handles width.
  */
 void handle_char(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
+int width, int precision)
 {
 	char c = va_arg(args, int);
 
 	(void) casing;
 	(void) flags;
+	(void) precision;
+	(void) width;
 
 	write(1, &c, 1);
 	(*count)++;
@@ -47,15 +52,20 @@ int print_string(const char *str)
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
  * @casing: 0 for lowercase, 1 for uppercase.
- * @flags: the flags for the specifier;
+ * @flags: the flags for the specifier.
+ * @width: handles width.
+ * @precision: handles precision.
  */
 void handle_string(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
+int width, int precision)
 {
 	char *str = va_arg(args, char *);
 
 	(void) casing;
 	(void) flags;
+	(void) width;
+	(void) precision;
 
 	if (str == NULL)
 	{
@@ -109,16 +119,21 @@ char *binary_to_string(unsigned int binary)
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
  * @casing: 0 for lowercase, 1 for uppercase.
- * @flags: the flags for the specifier;
+ * @flags: the flags for the specifier.
+ * @width: handles width.
+ * @precision: handles precision.
  */
 void handle_binary(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
+int width, int precision)
 {
 	unsigned int num = va_arg(args, unsigned int);
 	char *buffer = binary_to_string(num);
 
 	(void) casing;
 	(void) flags;
+	(void) precision;
+	(void) width;
 
 	if (buffer == NULL)
 		return;

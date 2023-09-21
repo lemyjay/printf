@@ -53,9 +53,12 @@ char handle_flags(const char *format, unsigned int *i)
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
  * @flags: the flags for the specifier.
+ * @width: handling width.
+ * @precision: handling precision.
  */
 void handle_format_specifier(
-char specifier, va_list args, unsigned int *count, unsigned int *i, char flags)
+char specifier, va_list args, unsigned int *count, unsigned int *i, char flags,
+int width, int precision)
 {
 	int j, casing = 0;
 	FormatSpecifier formatSpecifiers[] = {
@@ -75,7 +78,8 @@ char specifier, va_list args, unsigned int *count, unsigned int *i, char flags)
 		{
 			if (specifier == 'X')
 				casing = 1;
-			formatSpecifiers[j].handler(args, count, i, casing, flags);
+			formatSpecifiers[j].handler(args,
+			count, i, casing, flags, width, precision);
 			return;
 		}
 	}

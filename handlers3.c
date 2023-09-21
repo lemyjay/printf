@@ -90,15 +90,20 @@ void print_hexPointer(unsigned long hex, unsigned int *count)
  * @i: a pointer to the current position in the format string.
  * @casing: 0 for lowercase, 1 for uppercase.
  * @flags: the flags for the specifier.
+ * @width: handles width.
+ * @precision: handles precision.
  */
 void handle_custom_string(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
+int width, int precision)
 {
 	char *str = va_arg(args, char *);
 	int j;
 
 	(void) casing;
 	(void) flags;
+	(void) width;
+	(void) precision;
 
 	if (str == NULL)
 	{
@@ -135,14 +140,19 @@ va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
  * @i: a pointer to the current position in the format string.
  * @casing: 0 for lowercase, 1 for uppercase.
  * @flags: the flag for the specifier.
+ * @width: handles width.
+ * @precision: handles precision.
  */
 void handle_pointer(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
+int width, int precision)
 {
 	void *ptr = va_arg(args, void *);
 
 	(void) casing;
 	(void) flags;
+	(void) precision;
+	(void) width;
 
 	if (ptr == NULL)
 	{

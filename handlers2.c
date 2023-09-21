@@ -42,14 +42,19 @@ char *octal_to_string(unsigned long octal)
  * @i: a pointer to the current position in the format string.
  * @casing: 0 for lowercase, 1 for uppercase.
  * @flags: the flags for the specifier.
+ * @width: handles width.
+ * @precision: handles precision.
  */
 void handle_octal(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
+int width, int precision)
 {
 	unsigned long octal;
 	char *buffer;
 
 	(void) casing;
+	(void) width;
+	(void) precision;
 
 	if (flags == 'l')
 	{
@@ -130,12 +135,18 @@ char *hex_to_string(unsigned long hex, int casing)
  * @i: a pointer to the current position in the format string.
  * @casing: 0 for lowercase, 1 for uppercase.
  * @flags: the flags for the specifier.
+ * @width: handles width.
+ * @precision: handles precision.
  */
 void handle_hex(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
+int width, int precision)
 {
 	unsigned long hex;
 	char *buffer;
+
+	(void) width;
+	(void) precision;
 
 	if (flags == 'l')
 	{
@@ -177,13 +188,18 @@ va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
  * @i: a pointer to the current position in the format string.
  * @casing: 0 for lowercase, 1 for uppercase.
  * @flags: the flags for the specifier.
+ * @width: handles width.
+ * @precision: handles precision.
  */
 void handle_percent(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
+int width, int precision)
 {
 	(void) casing;
 	(void) flags;
 	(void) args;
+	(void) precision;
+	(void) width;
 
 	write(1, "%", 1);
 	(*count)++;

@@ -132,9 +132,12 @@ char *nosign_to_string(unsigned long num)
  * @i: a pointer to the current position in the format string.
  * @casing: 0 for lowercase, 1 for uppercase.
  * @flags: the flags for the specifier.
+ * @width: handles width.
+ * @precision: handles precision.
  */
 void handle_integer(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
+int width, int precision)
 {
 	long num;
 	char *buffer;
@@ -151,6 +154,8 @@ va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
 	}
 
 	(void) casing;
+	(void) width;
+	(void) precision;
 
 	if (buffer == NULL)
 		return;
@@ -178,15 +183,20 @@ va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
  * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
  * @casing: 0 for lowercase, 1 for uppercase.
- * @flags: the flags for the specifier.
+ * @flags: the flags for the specifier
+ * @width: handles width.
+ * @precision: handles precision..
  */
 void handle_nosign(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
+int width, int precision)
 {
 	unsigned long num;
 	char *buffer;
 
 	(void) casing;
+	(void) width;
+	(void) precision;
 
 	if (flags == 'l')
 	{

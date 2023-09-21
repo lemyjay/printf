@@ -1,47 +1,76 @@
 #include "main.h"
 
 /**
- * handle_width - Handles width specifier and prints spaces accordingly.
+ * get_width - Handles getting the width for printing..
  *
  * @args: the va_list containing the argument for width.
  * @format: the format string being processed.
- * @count: a pointer to the count of characters printed.
  * @i: a pointer to the current position in the format string.
- * @width: a pointer to store the width value.
+ *
+ * Return: the width.
  */
-void handle_width(
-va_list args, const char *format, unsigned int *count,
-unsigned int *i, int *width)
+int get_width(va_list args, const char *format, unsigned int *i)
 {
-	*width = 0;
+	unsigned int curr_i = (*i) + 1;
+	unsigned int width = 0;
 
-	if (format[(*i) + 1] == '*')
+	for ( ; format[curr_i] != '\0'; curr_i++)
 	{
-		*width = va_arg(args, int);
-		(*i)++;
-	}
-	else if (format[(*i) + 1] >= '0' && format[(*i) + 1] <= '9')
-	{
-		(*i)++;
-		while (format[(*i)] >= '0' && format[(*i)] <= '9')
+		if (format[curr_i] == '*')
 		{
-			(*width) = (*width) * 10 + (format[(*i)] - '0');
-			if (format[(*i) + 1] >= '0' && format[(*i) + 1] <= '9')
-				(*i)++;
-			else
-				break;
+			curr_i++;
+			width = va_arg(args, int);
+			break;
 		}
-	}
-
-	if ((*width) > 0)
-	{
-		char space = ' ';
-
-		while ((*width) > 0)
+		else if (format[curr_i] >= '0' && format[curr_i] <= '9')
 		{
-			write(1, &space, 1);
-			(*count)++;
-			(*width)--;
+			width *= 10;
+			width += format[curr_i] - '0';
 		}
+		else
+			break;
 	}
+
+	(*i) = curr_i - 1;
+
+	return (width);
 }
+
+/**
+ * get_precision - Handles getting the precision for printing.
+ *
+ * @args: the va_list containing the argument for precision.
+ * @format: the format string being processed.
+ * @i: a pointer to the current position in the format string.
+ *
+ * Return: the precision.
+ */
+int get_precision(va_list args, const char *format, unsigned int *i)
+{
+	unsigned int curr_i = (*i) + 1;
+	int precision = -1;
+
+	if (format[curr_i] == '.')
+	{
+		curr_i++;
+		if (format[curr_i] == '*')
+		{
+			curr_i++;
+			precision = va_arg(args, int);
+		}
+		else if (format[curr_i] >= '0' && format[curr_i] <= '9')
+		{
+			precision = 0;
+			while (format[curr_i] >= '0' && format[curr_i] <= '9')
+			{
+				precision = precision * 10 + (format[curr_i] - '0');
+				curr_i++;
+			}
+		}
+	}
+
+	(*i) = curr_i - 1;
+
+	return (precision);
+}
+

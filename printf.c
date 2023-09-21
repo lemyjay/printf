@@ -14,7 +14,7 @@ int _printf(const char *format, ...)
 {
 	va_list args;
 	unsigned int i = 0, count = 0;
-	int width = 0;
+	int width = 0, precision = 0;
 
 	if (format == NULL)
 		return (-1);
@@ -27,8 +27,10 @@ int _printf(const char *format, ...)
 		{
 			char flags = handle_flags(format, &i);
 
-			handle_width(args, format, &count, &i, &width);
-			handle_format_specifier(format[i + 1], args, &count, &i, flags);
+			width = get_width(args, format, &i);
+			precision = get_precision(args, format, &i);
+			handle_format_specifier(format[i + 1],
+			args, &count, &i, flags, width, precision);
 		}
 		else
 		{
