@@ -79,6 +79,7 @@ void reverse_string(char *str);
 void handle_reverse(
 va_list args, unsigned int *count, unsigned int *i, int casing, char flags);
 
-void padding_spaces(int num_spaces, unsigned int *count);
-int get_field_width(const char *format, unsigned int *i);
+void handle_width(
+va_list args, const char *format, unsigned int *count,
+unsigned int *i, int *width);
 #endif /* MAIN_H */
