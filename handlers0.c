@@ -9,7 +9,7 @@
  * @flags: the flags for the specifier
  */
 void handle_char(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
 {
 	char c = va_arg(args, int);
 
@@ -50,7 +50,7 @@ int print_string(const char *str)
  * @flags: the flags for the specifier;
  */
 void handle_string(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
 {
 	char *str = va_arg(args, char *);
 
@@ -112,7 +112,7 @@ char *binary_to_string(unsigned int binary)
  * @flags: the flags for the specifier;
  */
 void handle_binary(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
 {
 	unsigned int num = va_arg(args, unsigned int);
 	char *buffer = binary_to_string(num);

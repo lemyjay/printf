@@ -92,7 +92,7 @@ void print_hexPointer(unsigned long hex, unsigned int *count)
  * @flags: the flags for the specifier.
  */
 void handle_custom_string(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
 {
 	char *str = va_arg(args, char *);
 	int j;
@@ -137,7 +137,7 @@ va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
  * @flags: the flag for the specifier.
  */
 void handle_pointer(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
 {
 	void *ptr = va_arg(args, void *);
 

@@ -45,7 +45,7 @@ void reverse_string(char *str)
  * @flags: the flags for the specifier.
  */
 void handle_reverse(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
 {
 	char *str = va_arg(args, char *);
 
@@ -110,7 +110,7 @@ void rot13(char *str)
  * @flags: the flags for the specifier.
  */
 void handle_rot13(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
 {
 	char *str = va_arg(args, char *);
 

@@ -7,13 +7,7 @@
 #include <limits.h>
 #include <stdlib.h>
 
-/* Define macro for flag values */
-#define FLAG_MINUS '-'
-#define FLAG_PLUS '+'
-#define FLAG_SPACE ' '
-#define FLAG_HASH '#'
-
-int handle_flags(const char *format, unsigned int *i);
+char handle_flags(const char *format, unsigned int *i);
 
 /**
  * struct FormatSpecifier - Represents format specifiers and their handlers.
@@ -27,7 +21,7 @@ int handle_flags(const char *format, unsigned int *i);
 struct FormatSpecifier
 {
 	char specifier;
-	void (*handler)(va_list, unsigned int *, unsigned int *, int, int);
+	void (*handler)(va_list, unsigned int *, unsigned int *, int, char);
 };
 
 /**
@@ -39,50 +33,50 @@ typedef struct FormatSpecifier FormatSpecifier;
 int _printf(const char *format, ...);
 
 void handle_format_specifier(
-char specifier, va_list args, unsigned int *count, unsigned int *i, int flags);
+char specifier, va_list args, unsigned int *count, unsigned int *i, char flags);
 
 void handle_char(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags);
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags);
 
 void handle_string(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags);
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags);
 
 void handle_percent(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags);
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags);
 
 void handle_binary(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags);
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags);
 
 void handle_integer(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags);
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags);
 
 void handle_nosign(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags);
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags);
 
 void handle_octal(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags);
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags);
 
 void handle_hex(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags);
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags);
 
 void handle_pointer(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags);
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags);
 
 void handle_custom_string(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags);
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags);
 
 void handle_default(char specifier, unsigned int *count, unsigned int *i);
 
 int print_string(const char *str);
 
 void handle_rot13(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags);
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags);
 
 void rot13(char *str);
 void reverse_string(char *str);
 
 void handle_reverse(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags);
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags);
 
 void padding_spaces(int num_spaces, unsigned int *count);
 int get_field_width(const char *format, unsigned int *i);

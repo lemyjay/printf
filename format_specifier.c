@@ -8,35 +8,34 @@
  *
  * Return: the flags as an integer.
  */
-int handle_flags(const char *format, unsigned int *i)
+char handle_flags(const char *format, unsigned int *i)
 {
-	int flags = 0;
+	char flags = '\0';
+	unsigned int current_index = *i;
+	unsigned int next_index = current_index + 1;
 
-	while (format[(*i) + 1] == '+' || format[(*i) + 1] == ' ' ||
-			format[(*i) + 1] == '#')
+	switch (format[next_index])
 	{
-		switch (format[(*i) + 1])
-		{
-			case '+':
-				flags |= FLAG_PLUS;
-				break;
-			case ' ':
-				flags |= FLAG_SPACE;
-				break;
-			case '#':
-				flags |= FLAG_HASH;
-				break;
-		}
-
-		(*i)++;
+		case '+':
+			flags = '+';
+			break;
+		case ' ':
+			flags = ' ';
+			break;
+		case '#':
+			flags = '#';
+			break;
 	}
 
-	if (format[(*i) + 2] == 'd' || format[(*i) + 2] == 'i' ||
-	format[(*i) + 2] == 'o' || format[(*i) + 2] == 'x' ||
-	format[(*i) + 2] == 'X')
+	if ((format[next_index + 1] == 'd' || format[next_index + 1] == 'i' ||
+	format[next_index + 1] == 'o' || format[next_index + 1] == 'x' ||
+	format[next_index + 1] == 'X') && flags != '\0')
+	{
+		(*i)++;
 		return (flags);
-	else
-		return (0);
+	}
+
+	return (flags);
 }
 
 /**
@@ -49,7 +48,7 @@ int handle_flags(const char *format, unsigned int *i)
  * @flags: the flags for the specifier.
  */
 void handle_format_specifier(
-char specifier, va_list args, unsigned int *count, unsigned int *i, int flags)
+char specifier, va_list args, unsigned int *count, unsigned int *i, char flags)
 {
 	int j, casing = 0;
 	FormatSpecifier formatSpecifiers[] = {

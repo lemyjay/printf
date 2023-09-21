@@ -44,7 +44,7 @@ char *octal_to_string(unsigned int octal)
  * @flags: the flags for the specifier.
  */
 void handle_octal(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
 {
 	unsigned int octal = va_arg(args, unsigned int);
 	char *buffer = octal_to_string(octal);
@@ -54,7 +54,7 @@ va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 	if (buffer == NULL)
 		return;
 
-	if (flags & FLAG_HASH && octal != 0)
+	if (flags == '#' && octal != 0)
 	{
 		write(1, "0", 1);
 		(*count)++;
@@ -116,7 +116,7 @@ char *hex_to_string(unsigned int hex, int casing)
  * @flags: the flags for the specifier.
  */
 void handle_hex(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
 {
 	unsigned int hex = va_arg(args, unsigned int);
 	char *buffer = hex_to_string(hex, casing);
@@ -124,7 +124,7 @@ va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 	if (buffer == NULL)
 		return;
 
-	if (flags == FLAG_HASH && hex != 0)
+	if (flags == '#' && hex != 0)
 	{
 		write(1, (casing == 0) ? "0x" : "0X", 2);
 		(*count) += 2;
@@ -147,7 +147,7 @@ va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
  * @flags: the flags for the specifier.
  */
 void handle_percent(
-va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
+va_list args, unsigned int *count, unsigned int *i, int casing, char flags)
 {
 	(void) casing;
 	(void) flags;
