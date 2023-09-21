@@ -124,7 +124,7 @@ va_list args, unsigned int *count, unsigned int *i, int casing, int flags)
 	if (buffer == NULL)
 		return;
 
-	if (flags & FLAG_HASH && hex != 0)
+	if (flags == FLAG_HASH && hex != 0)
 	{
 		write(1, (casing == 0) ? "0x" : "0X", 2);
 		(*count) += 2;

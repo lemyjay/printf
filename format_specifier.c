@@ -15,7 +15,7 @@ int handle_flags(const char *format, unsigned int *i)
 	while (format[(*i) + 1] == '+' || format[(*i) + 1] == ' ' ||
 			format[(*i) + 1] == '#')
 	{
-		switch (format[*i])
+		switch (format[(*i) + 1])
 		{
 			case '+':
 				flags |= FLAG_PLUS;
