@@ -17,15 +17,19 @@ unsigned int *i, int *width)
 
 	if (format[(*i) + 1] == '*')
 	{
-		(*width) = va_arg(args, int);
+		*width = va_arg(args, int);
 		(*i)++;
 	}
 	else if (format[(*i) + 1] >= '0' && format[(*i) + 1] <= '9')
 	{
-		while (format[(*i) + 1] >= '0' && format[(*i) + 1] <= '9')
+		(*i)++;
+		while (format[(*i)] >= '0' && format[(*i)] <= '9')
 		{
-			(*width) = (*width) * 10 + (format[(*i) + 1] - '0');
-			(*i)++;
+			(*width) = (*width) * 10 + (format[(*i)] - '0');
+			if (format[(*i) + 1] >= '0' && format[(*i) + 1] <= '9')
+				(*i)++;
+			else
+				break;
 		}
 	}
 
