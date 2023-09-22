@@ -19,7 +19,16 @@ int width, int precision)
 	(void) casing;
 	(void) flags;
 	(void) precision;
-	(void) width;
+
+	if (width > 0)
+	{
+		while (width > 1)
+		{
+			write(1, " ", 1);
+			(*count)++;
+			width--;
+		}
+	}
 
 	write(1, &c, 1);
 	(*count)++;
@@ -61,19 +70,30 @@ va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
 int width, int precision)
 {
 	char *str = va_arg(args, char *);
+	int len;
 
 	(void) casing;
 	(void) flags;
-	(void) width;
-	(void) precision;
 
 	if (str == NULL)
+		str = "(null)";
+
+	len = print_string(str);
+	handle_precision(str, precision, &len);
+
+	if (width > len)
 	{
-		write(1, "(null)", 6);
-		(*count) += 6;
+		char pad_char = (flags == '0') ? '0' : ' ';
+
+		while (width > len)
+		{
+			write(1, &pad_char, 1);
+			(*count)++;
+			width--;
+		}
 	}
-	else
-		(*count) += print_string(str);
+
+	(*count) += len;
 	(*i)++;
 }
 
@@ -129,14 +149,26 @@ int width, int precision)
 {
 	unsigned int num = va_arg(args, unsigned int);
 	char *buffer = binary_to_string(num);
+	int len;
 
 	(void) casing;
 	(void) flags;
 	(void) precision;
-	(void) width;
 
 	if (buffer == NULL)
 		return;
+
+	len = _strlen(buffer);
+
+	if (width > len)
+	{
+		while (width > len)
+		{
+			write(1, "0", 1);
+			(*count)++;
+			width--;
+		}
+	}
 
 	(*count) += print_string(buffer);
 

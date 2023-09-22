@@ -54,8 +54,6 @@ int width, int precision)
 
 	(void) casing;
 	(void) flags;
-	(void) precision;
-	(void) width;
 
 	if (str == NULL)
 	{
@@ -64,6 +62,20 @@ int width, int precision)
 	}
 	else
 	{
+		int length = _strlen(str);
+
+		handle_precision(str, precision, &length);
+		if (width > length)
+		{
+			int padding = width - length;
+
+			while (padding > 0)
+			{
+				write(1, " ", 1);
+				(*count)++;
+				padding--;
+			}
+		}
 		reverse_string(str);
 		(*count) += print_string(str);
 	}

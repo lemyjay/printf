@@ -12,7 +12,7 @@
 int get_width(va_list args, const char *format, unsigned int *i)
 {
 	unsigned int curr_i = (*i) + 1;
-	unsigned int width = 0;
+	int width = 0;
 
 	for ( ; format[curr_i] != '\0'; curr_i++)
 	{
@@ -74,3 +74,18 @@ int get_precision(va_list args, const char *format, unsigned int *i)
 	return (precision);
 }
 
+/**
+ * handle_precision - Handles precision for a string.
+ *
+ * @str: The string to apply precision to.
+ * @precision: The precision value.
+ * @num_len: A pointer to the length of the string.
+ */
+void handle_precision(char *str, int precision, int *num_len)
+{
+	if (precision >= 0 && precision < *num_len)
+	{
+		str[precision] = '\0';
+		*num_len = precision;
+	}
+}

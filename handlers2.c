@@ -46,15 +46,12 @@ char *octal_to_string(unsigned long octal)
  * @precision: handles precision.
  */
 void handle_octal(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
-int width, int precision)
+va_list args, unsigned int *count, unsigned int *i,
+int casing __attribute__((unused)), char flags, int width, int precision)
 {
 	unsigned long octal;
 	char *buffer;
-
-	(void) casing;
-	(void) width;
-	(void) precision;
+	int num_len;
 
 	if (flags == 'l')
 	{
@@ -71,20 +68,24 @@ int width, int precision)
 		octal = va_arg(args, unsigned int);
 		buffer = octal_to_string((unsigned int)octal);
 	}
-
 	if (buffer == NULL)
 		return;
-
-	if (flags == '#' && octal != 0)
+	num_len = _strlen(buffer);
+	handle_precision(buffer, precision, &num_len);
+	if (width > num_len)
 	{
-		write(1, "0", 1);
-		(*count)++;
+		char pad_char = (flags == '0') ? '0' : ' ';
+
+		while (width > num_len)
+		{
+			write(1, &pad_char, 1);
+			(*count)++;
+			width--;
+		}
 	}
-
+	(flags == '#' && octal != 0) ? (write(1, "0", 1), (*count)++) : 0;
 	(*count) += print_string(buffer);
-
 	free(buffer);
-
 	(*i)++;
 }
 
@@ -144,9 +145,7 @@ int width, int precision)
 {
 	unsigned long hex;
 	char *buffer;
-
-	(void) width;
-	(void) precision;
+	int buffer_len, pad_len;
 
 	if (flags == 'l')
 	{
@@ -163,20 +162,26 @@ int width, int precision)
 		hex = va_arg(args, unsigned int);
 		buffer = hex_to_string((unsigned int)hex, casing);
 	}
-
 	if (buffer == NULL)
 		return;
-
-	if (flags == '#' && hex != 0)
+	buffer_len = _strlen(buffer);
+	handle_precision(buffer, precision, &buffer_len);
+	pad_len = width - buffer_len;
+	if (pad_len > 0)
 	{
-		write(1, (casing == 0) ? "0x" : "0X", 2);
-		(*count) += 2;
+		char pad_char = (flags == '0') ? '0' : ' ';
+
+		while (pad_len > 0)
+		{
+			write(1, &pad_char, 1);
+			(*count)++;
+			pad_len--;
+		}
 	}
-
+	(flags == '#' && hex != 0) ? (write(1, (casing == 0) ? "0x" : "0X", 2),
+	(*count) += 2) : 0;
 	(*count) += print_string(buffer);
-
 	free(buffer);
-
 	(*i)++;
 }
 

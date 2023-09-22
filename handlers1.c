@@ -136,11 +136,12 @@ char *nosign_to_string(unsigned long num)
  * @precision: handles precision.
  */
 void handle_integer(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
-int width, int precision)
+va_list args, unsigned int *count, unsigned int *i,
+int casing __attribute__((unused)), char flags, int width, int precision)
 {
 	long num;
 	char *buffer;
+	int num_len;
 
 	if (flags == 'l')
 	{
@@ -152,25 +153,26 @@ int width, int precision)
 		num = va_arg(args, int);
 		buffer = int_to_string((int)num);
 	}
-
-	(void) casing;
-	(void) width;
-	(void) precision;
-
 	if (buffer == NULL)
 		return;
-
-	if (flags == '+' && num >= 0)
+	num_len = _strlen(buffer);
+	handle_precision(buffer, precision, &num_len);
+	if (width > num_len)
 	{
-		write(1, "+", 1);
+		while (width > num_len)
+		{
+			write(1, " ", 1);
+			(*count)++;
+			width--;
+		}
+	}
+	if ((flags == '+' || flags == ' ') && num >= 0)
+	{
+		char sign = (flags == '+') ? '+' : ' ';
+
+		write(1, &sign, 1);
 		(*count)++;
 	}
-	else if (flags == ' ' && num >= 0)
-	{
-		write(1, " ", 1);
-		(*count)++;
-	}
-
 	(*count) += print_string(buffer);
 	free(buffer);
 	(*i)++;
@@ -188,15 +190,12 @@ int width, int precision)
  * @precision: handles precision..
  */
 void handle_nosign(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
-int width, int precision)
+va_list args, unsigned int *count, unsigned int *i,
+int casing __attribute__((unused)), char flags, int width, int precision)
 {
 	unsigned long num;
 	char *buffer;
-
-	(void) casing;
-	(void) width;
-	(void) precision;
+	int num_len;
 
 	if (flags == 'l')
 	{
@@ -213,10 +212,21 @@ int width, int precision)
 		num = va_arg(args, unsigned int);
 		buffer = nosign_to_string((unsigned int)num);
 	}
-
 	if (buffer == NULL)
 		return;
+	num_len = _strlen(buffer);
+	handle_precision(buffer, precision, &num_len);
+	if (width > num_len)
+	{
+		char pad_char = (flags == '0') ? '0' : ' ';
 
+		while (width > num_len)
+		{
+			write(1, &pad_char, 1);
+			(*count)++;
+			width--;
+		}
+	}
 	(*count) += print_string(buffer);
 	free(buffer);
 	(*i)++;

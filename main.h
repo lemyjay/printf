@@ -94,4 +94,6 @@ int width, int precision);
 
 int get_width(va_list args, const char *format, unsigned int *i);
 int get_precision(va_list args, const char *format, unsigned int *i);
+int _strlen(const char *str);
+void handle_precision(char *str, int precision, int *num_len);
 #endif /* MAIN_H */
