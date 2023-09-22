@@ -1,4 +1,5 @@
-main.h
+
+MAIN.H
 #ifndef MAIN_H
 #define MAIN_H
 
@@ -95,8 +96,13 @@ int width, int precision);
 
 int get_width(va_list args, const char *format, unsigned int *i);
 int get_precision(va_list args, const char *format, unsigned int *i);
+int _strlen(const char *str);
+char *handle_precision(char *str, int precision, int *num_len);
 #endif /* MAIN_H */
-handlers0.c
+
+
+
+HANDLERS0.C
 #include "main.h"
 /**
  * handle_char - handles the char specifier.
@@ -118,7 +124,16 @@ int width, int precision)
 	(void) casing;
 	(void) flags;
 	(void) precision;
-	(void) width;
+
+	if (width > 0)
+	{
+		while (width > 1)
+		{
+			write(1, " ", 1);
+			(*count)++;
+			width--;
+		}
+	}
 
 	write(1, &c, 1);
 	(*count)++;
@@ -159,21 +174,33 @@ void handle_string(
 va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
 int width, int precision)
 {
-	char *str = va_arg(args, char *);
+	char *str = va_arg(args, char *), *new_str;
+	int len;
 
 	(void) casing;
 	(void) flags;
-	(void) width;
-	(void) precision;
 
 	if (str == NULL)
+		str = "(null)";
+
+	len = _strlen(str);
+	new_str = handle_precision(str, precision, &len);
+
+	if (width > len)
 	{
-		write(1, "(null)", 6);
-		(*count) += 6;
+		char pad_char = (flags == '0') ? '0' : ' ';
+
+		while (width > len)
+		{
+			write(1, &pad_char, 1);
+			(*count)++;
+			width--;
+		}
 	}
-	else
-		(*count) += print_string(str);
+
+	(*count) += print_string(new_str);
 	(*i)++;
+	(new_str != str) ? free(new_str) : (void)0;
 }
 
 /**
@@ -228,14 +255,26 @@ int width, int precision)
 {
 	unsigned int num = va_arg(args, unsigned int);
 	char *buffer = binary_to_string(num);
+	int len;
 
 	(void) casing;
 	(void) flags;
 	(void) precision;
-	(void) width;
 
 	if (buffer == NULL)
 		return;
+
+	len = _strlen(buffer);
+
+	if (width > len)
+	{
+		while (width > len)
+		{
+			write(1, "0", 1);
+			(*count)++;
+			width--;
+		}
+	}
 
 	(*count) += print_string(buffer);
 
@@ -243,7 +282,10 @@ int width, int precision)
 
 	(*i)++;
 }
-handlers1.c
+
+
+
+HANDLERS1.C
 #include "main.h"
 
 /**
@@ -382,11 +424,12 @@ char *nosign_to_string(unsigned long num)
  * @precision: handles precision.
  */
 void handle_integer(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
-int width, int precision)
+va_list args, unsigned int *count, unsigned int *i,
+int casing __attribute__((unused)), char flags, int width, int precision)
 {
 	long num;
-	char *buffer;
+	char *buffer, *new_buffer;
+	int num_len;
 
 	if (flags == 'l')
 	{
@@ -398,27 +441,28 @@ int width, int precision)
 		num = va_arg(args, int);
 		buffer = int_to_string((int)num);
 	}
-
-	(void) casing;
-	(void) width;
-	(void) precision;
-
 	if (buffer == NULL)
 		return;
-
-	if (flags == '+' && num >= 0)
+	num_len = _strlen(buffer);
+	new_buffer = handle_precision(buffer, precision, &num_len);
+	if (width > num_len)
 	{
-		write(1, "+", 1);
+		while (width > num_len)
+		{
+			write(1, " ", 1);
+			(*count)++;
+			width--;
+		}
+	}
+	if ((flags == '+' || flags == ' ') && num >= 0)
+	{
+		char sign = (flags == '+') ? '+' : ' ';
+
+		write(1, &sign, 1);
 		(*count)++;
 	}
-	else if (flags == ' ' && num >= 0)
-	{
-		write(1, " ", 1);
-		(*count)++;
-	}
-
-	(*count) += print_string(buffer);
-	free(buffer);
+	(*count) += print_string(new_buffer);
+	(new_buffer != buffer) ? free(new_buffer) : free(buffer);
 	(*i)++;
 }
 
@@ -434,15 +478,12 @@ int width, int precision)
  * @precision: handles precision..
  */
 void handle_nosign(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
-int width, int precision)
+va_list args, unsigned int *count, unsigned int *i,
+int casing __attribute__((unused)), char flags, int width, int precision)
 {
 	unsigned long num;
-	char *buffer;
-
-	(void) casing;
-	(void) width;
-	(void) precision;
+	char *buffer, *new_buffer;
+	int num_len;
 
 	if (flags == 'l')
 	{
@@ -459,15 +500,29 @@ int width, int precision)
 		num = va_arg(args, unsigned int);
 		buffer = nosign_to_string((unsigned int)num);
 	}
-
 	if (buffer == NULL)
 		return;
+	num_len = _strlen(buffer);
+	new_buffer = handle_precision(buffer, precision, &num_len);
+	if (width > num_len)
+	{
+		char pad_char = (flags == '0') ? '0' : ' ';
 
-	(*count) += print_string(buffer);
-	free(buffer);
+		while (width > num_len)
+		{
+			write(1, &pad_char, 1);
+			(*count)++;
+			width--;
+		}
+	}
+	(*count) += print_string(new_buffer);
+	(new_buffer != buffer) ? free(new_buffer) : free(buffer);
 	(*i)++;
 }
-handlers2.c
+
+
+
+HANDLERS2.C
 #include "main.h"
 /**
  * octal_to_string -a function that converts an octal number to a string.
@@ -516,15 +571,12 @@ char *octal_to_string(unsigned long octal)
  * @precision: handles precision.
  */
 void handle_octal(
-va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
-int width, int precision)
+va_list args, unsigned int *count, unsigned int *i,
+int casing __attribute__((unused)), char flags, int width, int precision)
 {
 	unsigned long octal;
-	char *buffer;
-
-	(void) casing;
-	(void) width;
-	(void) precision;
+	char *buffer, *new_buffer;
+	int num_len;
 
 	if (flags == 'l')
 	{
@@ -541,20 +593,24 @@ int width, int precision)
 		octal = va_arg(args, unsigned int);
 		buffer = octal_to_string((unsigned int)octal);
 	}
-
 	if (buffer == NULL)
 		return;
-
-	if (flags == '#' && octal != 0)
+	num_len = _strlen(buffer);
+	new_buffer = handle_precision(buffer, precision, &num_len);
+	if (width > num_len)
 	{
-		write(1, "0", 1);
-		(*count)++;
+		char pad_char = (flags == '0') ? '0' : ' ';
+
+		while (width > num_len)
+		{
+			write(1, &pad_char, 1);
+			(*count)++;
+			width--;
+		}
 	}
-
-	(*count) += print_string(buffer);
-
-	free(buffer);
-
+	(flags == '#' && octal != 0) ? (write(1, "0", 1), (*count)++) : 0;
+	(*count) += print_string(new_buffer);
+	(new_buffer != buffer) ? free(new_buffer) : free(buffer);
 	(*i)++;
 }
 
@@ -613,10 +669,8 @@ va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
 int width, int precision)
 {
 	unsigned long hex;
-	char *buffer;
-
-	(void) width;
-	(void) precision;
+	char *buffer, *new_buffer;
+	int buffer_len, pad_len;
 
 	if (flags == 'l')
 	{
@@ -633,20 +687,26 @@ int width, int precision)
 		hex = va_arg(args, unsigned int);
 		buffer = hex_to_string((unsigned int)hex, casing);
 	}
-
 	if (buffer == NULL)
 		return;
-
-	if (flags == '#' && hex != 0)
+	buffer_len = _strlen(buffer);
+	new_buffer = handle_precision(buffer, precision, &buffer_len);
+	pad_len = width - buffer_len;
+	if (pad_len > 0)
 	{
-		write(1, (casing == 0) ? "0x" : "0X", 2);
-		(*count) += 2;
+		char pad_char = (flags == '0') ? '0' : ' ';
+
+		while (pad_len > 0)
+		{
+			write(1, &pad_char, 1);
+			(*count)++;
+			pad_len--;
+		}
 	}
-
-	(*count) += print_string(buffer);
-
-	free(buffer);
-
+	(flags == '#' && hex != 0) ? (write(1, (casing == 0) ? "0x" : "0X", 2),
+	(*count) += 2) : 0;
+	(*count) += print_string(new_buffer);
+	(new_buffer != buffer) ? free(new_buffer) : free(buffer);
 	(*i)++;
 }
 
@@ -675,7 +735,10 @@ int width, int precision)
 	(*count)++;
 	(*i)++;
 }
-handlers3.c
+
+
+
+HANDLERS3.C
 #include "main.h"
 
 /**
@@ -846,7 +909,10 @@ int width, int precision)
 
 	(*i)++;
 }
-handlers4.c
+
+
+
+HANDLERS4.C
 #include "main.h"
 
 /**
@@ -899,12 +965,10 @@ void handle_reverse(
 va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
 int width, int precision)
 {
-	char *str = va_arg(args, char *);
+	char *str = va_arg(args, char *), *new_str;
 
 	(void) casing;
 	(void) flags;
-	(void) precision;
-	(void) width;
 
 	if (str == NULL)
 	{
@@ -913,8 +977,23 @@ int width, int precision)
 	}
 	else
 	{
-		reverse_string(str);
-		(*count) += print_string(str);
+		int length = _strlen(str);
+
+		new_str = handle_precision(str, precision, &length);
+		if (width > length)
+		{
+			int padding = width - length;
+
+			while (padding > 0)
+			{
+				write(1, " ", 1);
+				(*count)++;
+				padding--;
+			}
+		}
+		reverse_string(new_str);
+		(*count) += print_string(new_str);
+		(new_str != str) ? free(new_str) : (void)0;
 	}
 	(*i)++;
 }
@@ -989,7 +1068,10 @@ int width, int precision)
 
 	(*i)++;
 }
-handlers5.c
+
+
+
+HANDLERS5.C
 #include "main.h"
 
 /**
@@ -1004,7 +1086,7 @@ handlers5.c
 int get_width(va_list args, const char *format, unsigned int *i)
 {
 	unsigned int curr_i = (*i) + 1;
-	unsigned int width = 0;
+	int width = 0;
 
 	for ( ; format[curr_i] != '\0'; curr_i++)
 	{
@@ -1066,7 +1148,42 @@ int get_precision(va_list args, const char *format, unsigned int *i)
 	return (precision);
 }
 
-format_specifier.c
+/**
+ * handle_precision - Handles precision for a string.
+ *
+ * @str: The string to apply precision to.
+ * @precision: The precision value.
+ * @num_len: A pointer to the length of the string.
+ *
+ * Return: a pointer to the modified string, or the original string if no
+ * modification is performed.
+ */
+char *handle_precision(char *str, int precision, int *num_len)
+{
+	if (precision >= 0 && precision < *num_len)
+	{
+		char *nstr = malloc(precision + 1);
+		int i = 0;
+
+		if (nstr == NULL)
+			return (NULL);
+		while (str[i] != '\0' && i < precision)
+		{
+			nstr[i] = str[i];
+			i++;
+		}
+		nstr[i] = '\0';
+		*num_len = i;
+
+		return (nstr);
+	}
+
+	return (str);
+}
+
+
+
+FORMAT_SPECIFIER.C
 #include "main.h"
 
 /**
@@ -1155,7 +1272,10 @@ int width, int precision)
 
 	handle_default(specifier, count, i);
 }
-printf.c
+
+
+
+PRINTF.C
 #include "main.h"
 
 /**
@@ -1202,3 +1322,5 @@ int _printf(const char *format, ...)
 
 	return (count);
 }
+
+

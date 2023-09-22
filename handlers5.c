@@ -80,12 +80,29 @@ int get_precision(va_list args, const char *format, unsigned int *i)
  * @str: The string to apply precision to.
  * @precision: The precision value.
  * @num_len: A pointer to the length of the string.
+ *
+ * Return: a pointer to the modified string, or the original string if no
+ * modification is performed.
  */
-void handle_precision(char *str, int precision, int *num_len)
+char *handle_precision(char *str, int precision, int *num_len)
 {
 	if (precision >= 0 && precision < *num_len)
 	{
-		str[precision] = '\0';
-		*num_len = precision;
+		char *nstr = malloc(precision + 1);
+		int i = 0;
+
+		if (nstr == NULL)
+			return (NULL);
+		while (str[i] != '\0' && i < precision)
+		{
+			nstr[i] = str[i];
+			i++;
+		}
+		nstr[i] = '\0';
+		*num_len = i;
+
+		return (nstr);
 	}
+
+	return (str);
 }

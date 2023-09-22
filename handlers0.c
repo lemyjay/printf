@@ -69,7 +69,7 @@ void handle_string(
 va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
 int width, int precision)
 {
-	char *str = va_arg(args, char *);
+	char *str = va_arg(args, char *), *new_str;
 	int len;
 
 	(void) casing;
@@ -79,7 +79,7 @@ int width, int precision)
 		str = "(null)";
 
 	len = _strlen(str);
-	handle_precision(str, precision, &len);
+	new_str = handle_precision(str, precision, &len);
 
 	if (width > len)
 	{
@@ -93,8 +93,9 @@ int width, int precision)
 		}
 	}
 
-	(*count) += print_string(str);
+	(*count) += print_string(new_str);
 	(*i)++;
+	(new_str != str) ? free(new_str) : (void)0;
 }
 
 /**

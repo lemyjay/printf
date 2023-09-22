@@ -50,7 +50,7 @@ va_list args, unsigned int *count, unsigned int *i,
 int casing __attribute__((unused)), char flags, int width, int precision)
 {
 	unsigned long octal;
-	char *buffer;
+	char *buffer, *new_buffer;
 	int num_len;
 
 	if (flags == 'l')
@@ -71,7 +71,7 @@ int casing __attribute__((unused)), char flags, int width, int precision)
 	if (buffer == NULL)
 		return;
 	num_len = _strlen(buffer);
-	handle_precision(buffer, precision, &num_len);
+	new_buffer = handle_precision(buffer, precision, &num_len);
 	if (width > num_len)
 	{
 		char pad_char = (flags == '0') ? '0' : ' ';
@@ -84,8 +84,8 @@ int casing __attribute__((unused)), char flags, int width, int precision)
 		}
 	}
 	(flags == '#' && octal != 0) ? (write(1, "0", 1), (*count)++) : 0;
-	(*count) += print_string(buffer);
-	free(buffer);
+	(*count) += print_string(new_buffer);
+	(new_buffer != buffer) ? free(new_buffer) : free(buffer);
 	(*i)++;
 }
 
@@ -144,7 +144,7 @@ va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
 int width, int precision)
 {
 	unsigned long hex;
-	char *buffer;
+	char *buffer, *new_buffer;
 	int buffer_len, pad_len;
 
 	if (flags == 'l')
@@ -165,7 +165,7 @@ int width, int precision)
 	if (buffer == NULL)
 		return;
 	buffer_len = _strlen(buffer);
-	handle_precision(buffer, precision, &buffer_len);
+	new_buffer = handle_precision(buffer, precision, &buffer_len);
 	pad_len = width - buffer_len;
 	if (pad_len > 0)
 	{
@@ -180,8 +180,8 @@ int width, int precision)
 	}
 	(flags == '#' && hex != 0) ? (write(1, (casing == 0) ? "0x" : "0X", 2),
 	(*count) += 2) : 0;
-	(*count) += print_string(buffer);
-	free(buffer);
+	(*count) += print_string(new_buffer);
+	(new_buffer != buffer) ? free(new_buffer) : free(buffer);
 	(*i)++;
 }
 

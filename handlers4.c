@@ -50,7 +50,7 @@ void handle_reverse(
 va_list args, unsigned int *count, unsigned int *i, int casing, char flags,
 int width, int precision)
 {
-	char *str = va_arg(args, char *);
+	char *str = va_arg(args, char *), *new_str;
 
 	(void) casing;
 	(void) flags;
@@ -64,7 +64,7 @@ int width, int precision)
 	{
 		int length = _strlen(str);
 
-		handle_precision(str, precision, &length);
+		new_str = handle_precision(str, precision, &length);
 		if (width > length)
 		{
 			int padding = width - length;
@@ -76,8 +76,9 @@ int width, int precision)
 				padding--;
 			}
 		}
-		reverse_string(str);
-		(*count) += print_string(str);
+		reverse_string(new_str);
+		(*count) += print_string(new_str);
+		(new_str != str) ? free(new_str) : (void)0;
 	}
 	(*i)++;
 }
