@@ -78,7 +78,7 @@ int width, int precision)
 	if (str == NULL)
 		str = "(null)";
 
-	len = print_string(str);
+	len = _strlen(str);
 	handle_precision(str, precision, &len);
 
 	if (width > len)
@@ -93,7 +93,7 @@ int width, int precision)
 		}
 	}
 
-	(*count) += len;
+	(*count) += print_string(str);
 	(*i)++;
 }
 
