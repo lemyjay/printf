@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * handle_long_min - helper function to handle INT_MIN and LONG_MIN
+ * handle_long_min - a function helper function to handle INT_MIN and LONG_MIN
  *
  * @n: to determine if INT_MIN or LONG_MIN
  *
@@ -42,7 +42,7 @@ static char *handle_long_min(int n)
 }
 
 /**
- * int_to_string - converts an integer to a string.
+ * int_to_string - a function that converts an integer to a string.
  *
  * @num: the integer to convert.
  *
