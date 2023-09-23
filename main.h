@@ -13,7 +13,7 @@ char handle_flags(const char *format, unsigned int *i);
  * struct FormatSpecifier - Represents format specifiers and their handlers.
  *
  * @specifier: the format specifier character.
- * @handler: a function pointer to the handler for this specifier.
+ * @handler: a function pointer to the handler for each specifier.
  *
  * Description: This structure is used to associate format specifier characters
  * with their corresponding handler functions.
@@ -96,4 +96,5 @@ int get_width(va_list args, const char *format, unsigned int *i);
 int get_precision(va_list args, const char *format, unsigned int *i);
 int _strlen(const char *str);
 char *handle_precision(char *str, int precision, int *num_len);
+
 #endif /* MAIN_H */
