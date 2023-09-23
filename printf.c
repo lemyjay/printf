@@ -32,7 +32,7 @@ int _printf(const char *format, ...)
 			handle_format_specifier(format[i + 1],
 			args, &count, &i, flags, width, precision);
 		}
-		else
+		else if (format[i] != '%')
 		{
 			write(1, &format[i], 1);
 			count++;
