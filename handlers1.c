@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * handle_long_min - helper function to handle INT_MIN and LONG_MIN
+ * handle_long_min - a function helper function to handle INT_MIN and LONG_MIN
  *
  * @n: to determine if INT_MIN or LONG_MIN
  *
@@ -42,7 +42,7 @@ static char *handle_long_min(int n)
 }
 
 /**
- * int_to_string - converts an integer to a string.
+ * int_to_string - a function that converts an integer to a string.
  *
  * @num: the integer to convert.
  *
@@ -89,7 +89,8 @@ char *int_to_string(long num)
 }
 
 /**
- * nosign_to_string - converts an unsigned integer to a string.
+ * nosign_to_string - a function that converts an
+ * unsigned integer to a string.
  *
  * @num: the unsigned integer to convert.
  * Return: a dynamically allocated string representing the unsigned integer.
@@ -125,7 +126,7 @@ char *nosign_to_string(unsigned long num)
 }
 
 /**
- * handle_integer - handles the integer specifier.
+ * handle_integer - a function that handles the integer specifier.
  *
  * @args: the va_list containing the arguments.
  * @count: a pointer to the count of characters printed.
