@@ -27,12 +27,14 @@ int _printf(const char *format, ...)
 		{
 			char flags = handle_flags(format, &i);
 
+			if (format[i + 1] == '\0')
+				break;
 			width = get_width(args, format, &i);
 			precision = get_precision(args, format, &i);
 			handle_format_specifier(format[i + 1],
 			args, &count, &i, flags, width, precision);
 		}
-		else if (format[i] != '%')
+		else
 		{
 			write(1, &format[i], 1);
 			count++;
