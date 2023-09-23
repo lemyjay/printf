@@ -119,7 +119,8 @@ void rot13(char *str)
 }
 
 /**
- * handle_rot13 - a funtion that handles the custom specifier %R.
+ * handle_rot13 - a funtion that handles the custom specifier %R
+ * for rot13
  *
  * @args: the va_list containing the arguments.
  * @count: a pointer to the count of characters printed.
