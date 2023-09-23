@@ -1,4 +1,5 @@
-# Custom printf function
+first group task
+Custom printf function
 
 AUTHORS: OBED AND SAMUEL
 ALX PRINTF TEAM PROJECT
